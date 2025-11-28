@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                     validator: AppValidators.emailValidator,
                     hintText: "Email",
                     keyboardType: TextInputType.emailAddress,
-                    preIcon: Icon(Icons.email),
+                    preIcon: ImageIcon(AssetImage(IconAssets.email)),
                   ),
                   SizedBox(height: AppSize.s24.h),
                   CustomTextFormField(
@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                     isObscure: provider.visiblePassword,
                     hintText: "Password",
                     keyboardType: TextInputType.visiblePassword,
-                    preIcon: Icon(Icons.lock),
+                    preIcon:ImageIcon(AssetImage(IconAssets.password)),
                     suffIcon: IconButton(
                       onPressed: provider.changePasswordVisibilityState,
                       icon: Icon(
@@ -57,7 +57,12 @@ class LoginScreen extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: CustomTextButton(
                       text: "Forget Password?",
-                      onPress: () {},
+                      onPress: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesManager.forgetPassword,
+                        );
+                      },
                     ),
                   ),
                   SizedBox(height: 35.h),
@@ -112,7 +117,9 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: AppSize.s24.h),
 
-                  CustomAnimatedToggle(),
+                  SizedBox(
+                    width: AppSize.s120.w,
+                    child: CustomAnimatedToggle()),
                 ],
               ),
             );

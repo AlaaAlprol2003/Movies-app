@@ -1,5 +1,6 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/features/auth/presentation/provider/auth_provider.dart';
@@ -24,8 +25,20 @@ class CustomAnimatedToggle extends StatelessWidget {
             borderColor: ColorsManager.yellow,
           ),
           iconList: [
-            Image.asset(IconAssets.egypt),
-            Image.asset(IconAssets.usa),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: ColorsManager.yellow, width: 2.w),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Image.asset(IconAssets.egypt),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: ColorsManager.yellow, width: 2.w),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Image.asset(IconAssets.usa),
+            ),
           ],
           indicatorIconScale: 1.5,
         );

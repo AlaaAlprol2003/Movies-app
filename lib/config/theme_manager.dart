@@ -26,7 +26,7 @@ class ThemeManager {
         ),
         minimumSize: Size(double.infinity, AppSize.s55),
         textStyle: GoogleFonts.roboto(
-          fontSize: 16.sp,
+          fontSize: 20.sp,
           fontWeight: FontWeight.w400,
         ),
         foregroundColor: ColorsManager.black,

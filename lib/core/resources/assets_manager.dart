@@ -10,6 +10,7 @@ abstract class ImagesAssets {
   static const String avatar8 = "$base/avatar8.png";
   static const String avatar9 = "$base/avatar9.png";
   static const String logo = "$base/logo.png";
+  static const String forgetPassword = "$base/forget_password_image.png";
 }
 
 abstract class IconAssets {

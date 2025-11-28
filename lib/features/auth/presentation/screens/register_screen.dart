@@ -21,9 +21,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.black,
-      appBar: CustomAppBar(titleText: "Register",onIconPress: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar(titleText: "Register"),
       body: Consumer<AuthProvider>(
         builder: (context, provider, child) {
           return SingleChildScrollView(
@@ -35,9 +33,7 @@ class RegisterScreen extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 200.h,
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) =>
-                            SizedBox(width: AppSize.s2),
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: Avatar.avatars.length,
                         itemBuilder: (context, index) {
@@ -50,13 +46,9 @@ class RegisterScreen extends StatelessWidget {
                                 Avatar.avatars[index].id,
                               );
                             },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-
-                              child: Image.asset(
-                                Avatar.avatars[index].bath,
-                                fit: isSelected ? BoxFit.cover : null,
-                              ),
+                            child: Image.asset(
+                              Avatar.avatars[index].bath,
+                              fit: isSelected ? BoxFit.cover : null,
                             ),
                           );
                         },
@@ -71,7 +63,7 @@ class RegisterScreen extends StatelessWidget {
                     CustomTextFormField(
                       validator: AppValidators.nameValidator,
                       controller: provider.nameController,
-                      hintText: "Name",                     
+                      hintText: "Name",
                       preIcon: ImageIcon(AssetImage(IconAssets.name)),
                     ),
                     SizedBox(height: AppSize.s24.h),
@@ -141,13 +133,22 @@ class RegisterScreen extends StatelessWidget {
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
 
-                        CustomTextButton(text: "Login", onPress: () {
-                          Navigator.pushReplacementNamed(context, RoutesManager.login);
-                        }),
+                        CustomTextButton(
+                          text: "Login",
+                          onPress: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              RoutesManager.login,
+                            );
+                          },
+                        ),
                       ],
                     ),
                     SizedBox(height: AppSize.s18.h),
-                    CustomAnimatedToggle(),
+                    SizedBox(
+                      width: AppSize.s120.w,
+                      child: CustomAnimatedToggle(),
+                    ),
                   ],
                 ),
               ),

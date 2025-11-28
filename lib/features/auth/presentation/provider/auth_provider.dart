@@ -7,7 +7,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
-  int selectedAvatar = 1;
+  int selectedAvatar = 2;
   int currentValue = 0;
   bool visiblePassword = false;
   bool visibleConfirmPassword = false;
