@@ -47,4 +47,14 @@ class AuthProvider extends ChangeNotifier {
     if (formKey.currentState?.validate() == false) return;
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
 }
