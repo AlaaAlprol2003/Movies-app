@@ -72,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 35.h),
                     BlocListener<AuthCubit,AuthState>(
+                      listenWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
                       listener: (context,state){
                         if(state is LoginLoading){
                           UiUtils.showLoadingDialog(context);

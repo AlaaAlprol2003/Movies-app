@@ -36,8 +36,8 @@ class UiUtils {
       borderRadius: BorderRadius.circular(16),
       icon: Icon(icon, color: ColorsManager.white),
       borderSide: BorderSide(color: ColorsManager.yellow, width: 2.w),
-
-      autoCloseDuration: Duration(seconds: 5),
+ 
+      autoCloseDuration: Duration(seconds:7),
     );
   }
 }
