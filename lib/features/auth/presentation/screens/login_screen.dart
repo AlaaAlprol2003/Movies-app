@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                   Image.asset(ImagesAssets.logo),
                   SizedBox(height: 65.h),
                   CustomTextFormField(
-                    controller: provider.emailController,
+                    controller: provider.loginEmailController,
                     validator: AppValidators.emailValidator,
                     hintText: "Email",
                     keyboardType: TextInputType.emailAddress,
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 24.h),
                   CustomTextFormField(
-                    controller: provider.passwordController,
+                    controller: provider.loginPasswordController,
                     validator: AppValidators.passwordValidator,
                     isObscure: provider.visiblePassword,
                     hintText: "Password",

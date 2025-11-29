@@ -6,8 +6,10 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
 
-  int selectedAvatar = 2;
+  int selectedAvatar = 1;
   int currentValue = 0;
   bool visiblePassword = true;
   bool visibleConfirmPassword = true;
