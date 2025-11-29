@@ -9,7 +9,7 @@ class RegisterResponse {
   factory RegisterResponse.fromJson(Map<String, dynamic> json) {
     return RegisterResponse(
       message: json["message"],
-      user: UserData.fromJson(json),
+      user: UserData.fromJson(json["data"]),
     );
   }
 }

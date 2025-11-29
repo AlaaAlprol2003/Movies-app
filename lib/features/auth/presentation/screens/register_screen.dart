@@ -152,7 +152,6 @@ class RegisterScreen extends StatelessWidget {
                       child: CustomElevatedButton(
                         text: "Create Account",
                         onPress: () {
-                           ///provider.onCreateAccountClicked();
                          if(provider.formKey.currentState?.validate() == false) return;
                             BlocProvider.of<AuthCubit>(context).register(
                               RegisterRequest(
