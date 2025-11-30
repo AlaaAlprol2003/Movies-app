@@ -8,14 +8,14 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/search_tab.dart';
 import '../../data/data_sources/movies_api_data_source.dart';
 import '../../data/repos_impl/movies_repo_impl.dart';
-import '../../domain/use_cases/movies_use_case.dart';
+import '../../domain/use_cases/carousel_movies_use_case.dart';
 
 class MainLayoutProvider extends ChangeNotifier {
   int selectedTab = 0;
   List<Widget> tabs = [
     BlocProvider(
       create: (context) => HomeTabCubit(
-        moviesUseCase: MoviesUseCase(
+        carouselMoviesUseCase: CarouselMoviesUseCase(
           moviesRepo: MoviesRepoImpl(
             dataSource: MoviesApiDataSource(
               dio: Dio(),

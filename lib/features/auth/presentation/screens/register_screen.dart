@@ -10,8 +10,9 @@ import 'package:movies_app/core/widgets/custom_text_button.dart';
 import 'package:movies_app/core/widgets/custom_text_form_field.dart';
 import 'package:movies_app/features/auth/presentation/provider/auth_provider.dart';
 import 'package:movies_app/features/auth/presentation/widgets/custom_animated_toogle.dart';
-import 'package:movies_app/models/avatar.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../core/models/avatar.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});

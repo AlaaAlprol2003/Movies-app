@@ -26,7 +26,7 @@ class MoviesRepoImpl implements MoviesRepo {
                   rating: movie.rating,
                   genres: movie.genres,
                   mediumCoverImage: movie.mediumCoverImage,
-                  dateUploaded: movie.dateUploaded,
+
                 ),
               )
               .toList(),

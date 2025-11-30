@@ -1,18 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/features/movies/domain/use_cases/movies_use_case.dart';
+import 'package:movies_app/features/movies/domain/use_cases/carousel_movies_use_case.dart';
 import '../../../../../domain/entities/movie_summary_entity.dart';
 
 
 class HomeTabCubit extends Cubit<HomeTabState> {
-  final MoviesUseCase moviesUseCase;
+  final CarouselMoviesUseCase carouselMoviesUseCase;
 
-  HomeTabCubit({required this.moviesUseCase}) : super(HomeTabInitial());
+  HomeTabCubit({required this.carouselMoviesUseCase}) : super(HomeTabInitial());
 
   Future<void> fetchMovies(
       {int? limit}
       ) async {
     emit(HomeTabLoading());
-    final result = await moviesUseCase(
+    final result = await carouselMoviesUseCase(
       limit: limit ,
     );
     result.fold(

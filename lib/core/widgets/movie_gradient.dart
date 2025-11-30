@@ -11,7 +11,7 @@ class MovieGradient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 400),
       switchInCurve: Curves.easeIn,
       switchOutCurve: Curves.easeOut,
       child: Stack(
@@ -49,7 +49,7 @@ class MovieGradient extends StatelessWidget {
             top: 35,
             left: 60,
             child: Image.asset(
-              IconAssets.availableWatchNowMovie,
+              ImagesAssets.availableWatchNowMovie,
               fit: BoxFit.cover,
               height: 550.h,
             ),
