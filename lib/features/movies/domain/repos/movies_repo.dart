@@ -3,5 +3,5 @@ import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.
 
 
 abstract class MoviesRepo{
-Future<Either<String, List<MovieSummaryEntity>>> getMovies({int? limit, String? genre });
+Future<Either<String, List<MovieSummaryEntity>>> getMovies({int? limit, String? genres });
 }

@@ -3,7 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.dart';
 import '../../domain/repos/movies_repo.dart';
 import '../data_sources/movies_data_source.dart';
-@LazySingleton(as:MoviesRepo )
+
+@LazySingleton(as: MoviesRepo)
 class MoviesRepoImpl implements MoviesRepo {
   MoviesRepoImpl({required this.dataSource});
 
@@ -12,27 +13,14 @@ class MoviesRepoImpl implements MoviesRepo {
   @override
   Future<Either<String, List<MovieSummaryEntity>>> getMovies({
     int? limit,
-    String? genre,
+    String? genres,
   }) async {
     try {
-      final result = await dataSource.getMovies(
-        limit: limit,
-      );
+      final result = await dataSource.getMovies(limit: limit, genres: genres);
       return result.fold(
         (failure) => Left(failure),
-        (movies) => Right(
-          movies
-              .map(
-                (movie) => MovieSummaryEntity(
-                  id: movie.id,
-                  rating: movie.rating,
-                  genres: movie.genres,
-                  mediumCoverImage: movie.mediumCoverImage,
-                  largeCoverImage: movie.largeCoverImage,
-                ),
-              )
-              .toList(),
-        ),
+        (movies) =>
+            Right(movies.map((movie) => movie.toMovieSummaryEntity()).toList()),
       );
     } catch (e) {
       return Left(e.toString());

@@ -8,23 +8,22 @@ class BrowseCubit extends Cubit<BrowseState> {
   BrowseUseCase browseUseCase;
   BrowseCubit({required this.browseUseCase}) : super(BrowseInitial());
 
-  void getMovies({String? genres}) async {
+  void getMovies({String? genres, int? limit}) async {
     emit(BrowseLoading());
     print("GENRE REQUESTED => $genres");
-    final result = await browseUseCase(genres: genres);
+    final result = await browseUseCase(genres: genres, limit: limit);
     result.fold(
       (failure) {
         emit(BrowseError(message: failure));
       },
       (movies) {
         List<String> allGenres = movies
-          .where((m) => m.genres != null && m.genres!.isNotEmpty)
-          .expand((m) => m.genres!)
-          .toSet()
-          .toList();
+            .where((m) => m.genres != null && m.genres!.isNotEmpty)
+            .expand((m) => m.genres!)
+            .toSet()
+            .toList();
 
-
-        emit(BrowseSuccess(movies: movies, genres:allGenres));
+        emit(BrowseSuccess(movies: movies, genres: allGenres));
       },
     );
   }

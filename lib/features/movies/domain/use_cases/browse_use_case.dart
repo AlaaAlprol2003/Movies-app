@@ -10,8 +10,9 @@ class BrowseUseCase {
   BrowseUseCase({required this.moviesRepo});
 
   Future<Either<String, List<MovieSummaryEntity>>> call({
+    int? limit,
     String? genres,
   }) async {
-    return await moviesRepo.getMovies(genre: genres);
+    return await moviesRepo.getMovies(genres: genres,limit: limit);
   }
 }

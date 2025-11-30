@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/domain/use_cases/carousel_movies_use_case.dart';
 import '../../../../../domain/entities/movie_summary_entity.dart';
 
-@lazySingleton
+@injectable
 class HomeTabCubit extends Cubit<HomeTabState> {
   final CarouselMoviesUseCase carouselMoviesUseCase;
 

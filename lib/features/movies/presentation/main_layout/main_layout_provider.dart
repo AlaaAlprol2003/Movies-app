@@ -7,29 +7,30 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_ta
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/home_tab_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/profile_tab.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/search_tab.dart';
-import '../../data/data_sources/movies_api_data_source.dart';
-import '../../data/repos_impl/movies_repo_impl.dart';
-import '../../domain/use_cases/carousel_movies_use_case.dart';
 
 class MainLayoutProvider extends ChangeNotifier {
+  late HomeTabCubit homeTabCubit = serviceLocator.get<HomeTabCubit>()
+    ..fetchMovies(limit: 10);
   int selectedTab = 0;
-  List<Widget> tabs = [
-    BlocProvider(
-      create: (context) => serviceLocator.get<HomeTabCubit>()..fetchMovies(limit: 5),
-      child: HomeTab(),
-    ),
+  late List<Widget> tabs = [
+    BlocProvider.value(value: homeTabCubit, child: HomeTab()),
     SearchTab(),
     BrowseTab(),
     ProfileTab(),
   ];
-  int selectedCarouselTab= 0;
+  int selectedCarouselTab = 0;
+  String selectedGenre = "Action";
+  void changeTabBarItem(String genre) {
+    selectedGenre = genre;
+    notifyListeners();
+  }
 
   void changeTab(int index) {
     selectedTab = index;
     notifyListeners();
   }
 
-  void onCarouselChange(int index){
+  void onCarouselChange(int index) {
     selectedCarouselTab = index;
     notifyListeners();
   }

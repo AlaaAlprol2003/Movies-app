@@ -63,7 +63,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1050.CarouselMoviesUseCase>(
       () => _i1050.CarouselMoviesUseCase(moviesRepo: gh<_i786.MoviesRepo>()),
     );
-    gh.lazySingleton<_i825.HomeTabCubit>(
+    gh.factory<_i825.HomeTabCubit>(
       () => _i825.HomeTabCubit(
         carouselMoviesUseCase: gh<_i1050.CarouselMoviesUseCase>(),
       ),

@@ -3,31 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/widgets/movie_item.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/main_layout_provider.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/cubit/browse_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/widgets/tab_bar_item.dart';
+import 'package:provider/provider.dart';
 
-class BrowseTab extends StatefulWidget {
+class BrowseTab extends StatelessWidget {
   const BrowseTab({super.key});
 
   @override
-  State<BrowseTab> createState() => _BrowseTabState();
-}
-
-class _BrowseTabState extends State<BrowseTab> {
-  String selectedGenre = "Action";
-
-  @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MainLayoutProvider>(context);
     return SafeArea(
       child: BlocProvider<BrowseCubit>(
-        create: (context) =>
-            serviceLocator.get<BrowseCubit>()..getMovies(),
+        create: (context) => serviceLocator.get<BrowseCubit>()..getMovies(),
         child: Padding(
           padding: REdgeInsets.symmetric(vertical: 16.0, horizontal: 12),
           child: BlocBuilder<BrowseCubit, BrowseState>(
             builder: (context, state) {
-
-              
               if (state is BrowseLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is BrowseError) {
@@ -44,11 +37,11 @@ class _BrowseTabState extends State<BrowseTab> {
                           final newGenre = categories[value];
 
                           context.read<BrowseCubit>().getMovies(
-                            genres: newGenre ,
+                            limit: 30,
+                            genres: newGenre,
                           );
 
-                          selectedGenre = newGenre;
-                          setState(() {});
+                          provider.changeTabBarItem(newGenre);
                         },
                         isScrollable: true,
                         dividerColor: Colors.transparent,
@@ -59,7 +52,7 @@ class _BrowseTabState extends State<BrowseTab> {
                             .map(
                               (category) => TabBarItem(
                                 categoryName: category,
-                                isSelected: selectedGenre == category,
+                                isSelected: provider.selectedGenre == category,
                               ),
                             )
                             .toList(),
@@ -70,22 +63,21 @@ class _BrowseTabState extends State<BrowseTab> {
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 20.w,
+                          mainAxisSpacing: 8.h,
                           childAspectRatio: 7 / 10,
                         ),
                         itemCount: state.movies.length,
                         itemBuilder: (context, index) {
                           return MovieItem(
-                            pic: state.movies[index].largeCoverImage?? "",
-                            rate: state.movies[index].rating?? 0,
+                            pic: state.movies[index].largeCoverImage ?? "",
+                            rate: state.movies[index].rating ?? 0,
                           );
                         },
                       ),
                     ),
                   ],
                 );
-                
               }
               return SizedBox();
             },
