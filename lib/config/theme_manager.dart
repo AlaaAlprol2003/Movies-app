@@ -64,6 +64,9 @@ class ThemeManager {
         borderSide: BorderSide(color: ColorsManager.red, width: 1.w),
       ),
     ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: ColorsManager.yellow
+    ),
     textTheme: TextTheme(
       headlineSmall: GoogleFonts.roboto(
         fontSize: 14.sp,

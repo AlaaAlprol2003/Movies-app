@@ -21,12 +21,14 @@ class CustomTextFormField extends StatelessWidget {
   final bool isObscure;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
+  
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: GoogleFonts.roboto(fontSize: 16.sp,fontWeight: FontWeight.w500,color: ColorsManager.white),
       validator: validator,
       controller: controller,
+      
       obscureText: isObscure,
       cursorColor: ColorsManager.white,
       keyboardType:keyboardType ,

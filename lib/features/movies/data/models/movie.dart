@@ -65,6 +65,7 @@ class Movie {
       rating: rating,
       genres: genres,
       mediumCoverImage: mediumCoverImage,
+      largeCoverImage: largeCoverImage
     );
   }
 

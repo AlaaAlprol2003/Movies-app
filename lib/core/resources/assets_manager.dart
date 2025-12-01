@@ -11,8 +11,9 @@ abstract class ImagesAssets {
   static const String avatar9 = "$base/avatar9.png";
   static const String logo = "$base/logo.png";
   static const String forgetPassword = "$base/forget_password_image.png";
-  static const String availableWatchNowMovie='assets/images/available_watch_now_movie.png';
-
+  static const String availableWatchNowMovie =
+      'assets/images/available_watch_now_movie.png';
+  static const String empity = '$base/empity_logo.png';
 }
 
 abstract class IconAssets {
@@ -24,9 +25,8 @@ abstract class IconAssets {
   static const String egypt = "$base/eg.png";
   static const String usa = "$base/usa.png";
   static const String google = "$base/google_icon.png";
-  static const String home='$base/home_icon.svg';
-  static const String search='$base/search_icon.svg';
-  static const String explore='$base/explore_icon.svg';
-  static const String profile='$base/profile_icon.svg';
-
+  static const String home = '$base/home_icon.svg';
+  static const String search = '$base/search_icon.svg';
+  static const String explore = '$base/explore_icon.svg';
+  static const String profile = '$base/profile_icon.svg';
 }
