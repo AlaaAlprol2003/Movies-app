@@ -51,8 +51,6 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_ta
     as _i432;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/cubits/home_tab_category_cubit.dart'
     as _i859;
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/home_tab_cubit.dart'
-    as _i26;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart'
     as _i830;
 
@@ -79,20 +77,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i851.CarouselMoviesUseCase>(
       () => _i851.CarouselMoviesUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
     );
-    gh.lazySingleton<_i92.HomeTabCategoriseUseCase>(
-      () => _i92.HomeTabCategoriseUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
-    );
     gh.lazySingleton<_i584.SearchUseCase>(
       () => _i584.SearchUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
     );
-    gh.lazySingleton<_i859.HomeTabCategoryCubit>(
+    gh.factory<_i92.HomeTabCategoriseUseCase>(
+      () => _i92.HomeTabCategoriseUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
+    );
+    gh.factory<_i859.HomeTabCategoryCubit>(
       () => _i859.HomeTabCategoryCubit(
         homeTabCategoriseUseCase: gh<_i92.HomeTabCategoriseUseCase>(),
-      ),
-    );
-    gh.factory<_i26.HomeTabCubit>(
-      () => _i26.HomeTabCubit(
-        carouselMoviesUseCase: gh<_i851.CarouselMoviesUseCase>(),
       ),
     );
     gh.lazySingleton<_i432.HomeTabCarouselCubit>(

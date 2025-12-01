@@ -44,12 +44,12 @@ class _SearchTabState extends State<SearchTab> {
 
               decoration: InputDecoration(
                 hintText: "Search",
-                prefixIcon: SvgPicture.asset(IconAssets.search),
+                prefixIcon: SvgPicture.asset(IconAssets.search,),
               ),
             ),
             SizedBox(height: 16.h),
             BlocBuilder<SearchCubit, SearchState>(
-              builder: (cntext, state) {
+              builder: (context, state) {
                 if (searchKey.isEmpty) {
                   return Expanded(
                     child: Center(child: Image.asset(ImagesAssets.empity)),

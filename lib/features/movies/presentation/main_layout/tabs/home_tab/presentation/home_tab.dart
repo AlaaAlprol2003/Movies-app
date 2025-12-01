@@ -10,99 +10,170 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_ta
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/widgets/category_list_view.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../../core/resources/colors_manager.dart';
-import '../../../../../domain/entities/movie_summary_entity.dart';
 import '../../../main_layout_provider.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  bool _fetched = false;
+  int? _lastGenreIndex;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final provider = Provider.of<MainLayoutProvider>(context, listen: false);
+    final cubit = context.read<HomeTabCategoryCubit>();
+
+    if (!_fetched) {
+      cubit.fetchCategoryMovies(
+        genre1: provider.genres[provider.genreIndex],
+        genre2: provider.genres[provider.genreIndex + 1],
+        genre3: provider.genres[provider.genreIndex + 2],
+      );
+      _fetched = true;
+      _lastGenreIndex = provider.genreIndex;
+    }
+
+    provider.addListener(_onGenreChange);
+  }
+
+  void _onGenreChange() {
+    final provider = Provider.of<MainLayoutProvider>(context, listen: false);
+
+    if (_lastGenreIndex == provider.genreIndex) return;
+    _lastGenreIndex = provider.genreIndex;
+
+    final cubit = context.read<HomeTabCategoryCubit>();
+    cubit.fetchCategoryMovies(
+      genre1: provider.genres[provider.genreIndex],
+      genre2: provider.genres[provider.genreIndex + 1],
+      genre3: provider.genres[provider.genreIndex + 2],
+    );
+  }
+
+  @override
+  void dispose() {
+    final provider = Provider.of<MainLayoutProvider>(context, listen: false);
+    provider.removeListener(_onGenreChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainLayoutProvider>(context);
+
     return SingleChildScrollView(
       padding: REdgeInsets.only(bottom: 75),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Carousel
           BlocBuilder<HomeTabCarouselCubit, HomeTabCarouselState>(
             builder: (context, state) {
               if (state is HomeTabCarouselLoading) {
                 return SizedBox(
                   height: 600.h,
-                  child: const Center(child: CircularProgressIndicator(
-                    color: ColorsManager.white,)),
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.white,
+                      )),
                 );
               } else if (state is HomeTabCarouselOnError) {
-                return Center(child: Text(state.message,style: TextStyle(color: ColorsManager.red),));
-              }
-              else if (state is HomeTabCarouselInitial) {
-                return Container();
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: TextStyle(color: ColorsManager.red),
+                  ),
+                );
               } else if (state is HomeTabCarouselOnSuccess) {
-                List<MovieSummaryEntity> movies = state.movies;
-                return
-                  SizedBox(
-                    height: 600.h,
-                    child: Stack(
-                      children: [
-                        MovieGradient(pic: movies[provider.selectedCarouselTab]
-                            .mediumCoverImage ?? ''),
-                        Padding(
-                          padding: REdgeInsets.symmetric(vertical: 130),
-                          child: CarouselSlider(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) {
-                                  provider.onCarouselChange(index);
-                                },
-                                height: double.infinity,
-                                enlargeCenterPage: true,
-                                enlargeFactor: .4,
-                                viewportFraction: .6,
-                                autoPlay: true,
-                                autoPlayInterval: Duration(seconds: 3),
-                                autoPlayAnimationDuration: Duration(
-                                    milliseconds: 1500),
-                                scrollPhysics: BouncingScrollPhysics(),
-
-                              ),
-                              items: movies.map((movie) =>
-                                  MovieItem(pic: movie.mediumCoverImage ?? '',
-                                      rate: movie.rating ?? 0.0)).toList()
+                final movies = state.movies;
+                return SizedBox(
+                  height: 600.h,
+                  child: Stack(
+                    children: [
+                      MovieGradient(
+                          pic: movies[provider.selectedCarouselTab]
+                              .mediumCoverImage ??
+                              ''),
+                      Padding(
+                        padding: REdgeInsets.symmetric(vertical: 130),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            onPageChanged: (index, reason) {
+                              provider.onCarouselChange(index);
+                            },
+                            height: double.infinity,
+                            enlargeCenterPage: true,
+                            enlargeFactor: .4,
+                            viewportFraction: .6,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                            const Duration(milliseconds: 1500),
+                            scrollPhysics: const BouncingScrollPhysics(),
                           ),
+                          items: movies
+                              .map(
+                                (movie) => MovieItem(
+                                pic: movie.mediumCoverImage ?? '',
+                                rate: movie.rating ?? 0.0),
+                          )
+                              .toList(),
                         ),
-                      ],
-                    ),
-
-                  );
+                      ),
+                    ],
+                  ),
+                );
               } else {
                 return Container();
               }
             },
           ),
+
+          // Category Lists
           BlocBuilder<HomeTabCategoryCubit, HomeTabCategoryState>(
             builder: (context, state) {
               if (state is HomeTabCategoryLoading) {
                 return SizedBox(
                   height: 300.h,
-                  child: const Center(child: CircularProgressIndicator(
-                    color: ColorsManager.white,)),
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.white,
+                      )),
                 );
               } else if (state is HomeTabCategoryOnError) {
-                return Center(child: Text(state.message,style:TextStyle(color: ColorsManager.red),));
-              }
-              else if (state is HomeTabCategoryInitial) {
-                return Container();
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: TextStyle(color: ColorsManager.red),
+                  ),
+                );
               } else if (state is HomeTabCategoryOnSuccess) {
-                List<MovieSummaryEntity> category1 = state.category1;
-                List<MovieSummaryEntity> category2 = state.category2;
-                List<MovieSummaryEntity> category3 = state.category3;
-                return
-                  Column(
-                    children: [
-                      CategoryListView(categoryName: provider.genres[provider.genreIndex], movies: category1),
-                      CategoryListView(categoryName: provider.genres[provider.genreIndex+1], movies: category2),
-                      CategoryListView(categoryName: provider.genres[provider.genreIndex+2], movies: category3),
-                    ],
-                  );
+                final category1 = state.category1;
+                final category2 = state.category2;
+                final category3 = state.category3;
+
+                return Column(
+                  children: [
+                    CategoryListView(
+                        categoryName:
+                        provider.genres[provider.genreIndex], // genre1
+                        movies: category1),
+                    CategoryListView(
+                        categoryName:
+                        provider.genres[provider.genreIndex + 1], // genre2
+                        movies: category2),
+                    CategoryListView(
+                        categoryName:
+                        provider.genres[provider.genreIndex + 2], // genre3
+                        movies: category3),
+                  ],
+                );
               } else {
                 return Container();
               }

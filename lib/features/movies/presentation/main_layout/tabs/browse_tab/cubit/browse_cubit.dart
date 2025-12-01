@@ -8,21 +8,15 @@ class BrowseCubit extends Cubit<BrowseState> {
   BrowseUseCase browseUseCase;
   BrowseCubit({required this.browseUseCase}) : super(BrowseInitial());
 
-  void getMovies({String? genres, int? limit}) async {
+  void getMovies({ int? limit , String? genres}) async {
     emit(BrowseLoading());
-    final result = await browseUseCase(genres: genres, limit: limit);
+    final result = await browseUseCase( limit: limit, genres: genres);
     result.fold(
       (failure) {
         emit(BrowseError(message: failure));
       },
       (movies) {
-        List<String> allGenres = movies
-            .where((m) => m.genres != null && m.genres!.isNotEmpty)
-            .expand((m) => m.genres!)
-            .toSet()
-            .toList();
-
-        emit(BrowseSuccess(movies: movies, genres: allGenres));
+        emit(BrowseSuccess(movies: movies));
       },
     );
   }
@@ -41,6 +35,5 @@ class BrowseError extends BrowseState {
 
 class BrowseSuccess extends BrowseState {
   List<MovieSummaryEntity> movies;
-  List<String> genres;
-  BrowseSuccess({required this.movies, required this.genres});
+  BrowseSuccess({required this.movies,});
 }

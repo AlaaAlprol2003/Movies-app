@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import '../../../../../../domain/entities/movie_summary_entity.dart';
 import '../../../../../../domain/use_cases/home_tab_categorise_use_case.dart';
 import 'cubit_states.dart';
+import 'package:injectable/injectable.dart';
 
-@LazySingleton()
+@injectable
 class HomeTabCategoryCubit extends Cubit<HomeTabCategoryState> {
   final HomeTabCategoriseUseCase homeTabCategoriseUseCase;
   HomeTabCategoryCubit({
@@ -57,10 +57,6 @@ class HomeTabCategoryCubit extends Cubit<HomeTabCategoryState> {
 
 
     emit(HomeTabCategoryOnSuccess(category1!, category2!, category3!));
-  }
-
-  void resetState() {
-    emit(HomeTabCategoryInitial());
   }
 
 

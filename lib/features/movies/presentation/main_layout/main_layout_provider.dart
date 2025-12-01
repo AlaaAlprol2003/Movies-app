@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/browse_tab.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/cubit/browse_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/cubits/home_tab_carousel_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/cubits/home_tab_category_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/home_tab.dart';
@@ -11,8 +12,11 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_
 
 class MainLayoutProvider extends ChangeNotifier {
   late HomeTabCarouselCubit homeTabCarouselCubit = serviceLocator.get<HomeTabCarouselCubit>()..fetchCarouselMovies(limit: 5);
-  late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex], genre2: genres[genreIndex+1], genre3: genres[genreIndex+2],);
+  late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex],
+    genre2: genres[genreIndex+1],
+    genre3: genres[genreIndex+2],);
   late SearchCubit searchCubit = serviceLocator.get<SearchCubit>();
+  late BrowseCubit browseCubit = serviceLocator.get<BrowseCubit>()..getMovies(limit: 30,);
   late List<Widget> tabs = [
     MultiBlocProvider(
       providers: [
@@ -23,50 +27,42 @@ class MainLayoutProvider extends ChangeNotifier {
     BlocProvider.value(
         value: searchCubit,
         child: SearchTab()),
-    BrowseTab(),
+    BlocProvider.value(
+      value: browseCubit,
+        child: BrowseTab()),
     ProfileTab(),
   ];
   int selectedTab = 0;
   int genreIndex = 0;
+  int browseGenreIndex = 0;
   int selectedCarouselTab = 0;
-  String selectedGenre = "Action";
   List<String> genres = [
-    'Sport',
+    'Crime',
     'Romance',
     'Animation',
     'Adventure',
-    'Anime',
     'Comedy',
-    'Crime',
+    'Sport',
     'Documentary',
     'Action',
     'Drama',
     'Family',
     'Fantasy',
-    'Game Show',
     'Horror',
-    'Language',
-    'Lifestyle',
     'Musical',
     'Mystery',
     'Sci-Fi',
-    'Seasonal',
-    'Short',
-    'Reality TV',
     'Thriller',
     'Western',
     'Music',
   ];
-  void changeTabBarItem(String genre) {
-    selectedGenre = genre;
-    notifyListeners();
-  }
+
 
   void changeGenre(int index) {
     if(selectedTab == 0){
-      if(genreIndex!=21){
+      if(genreIndex!=15){
         genreIndex+=3;
-      }else if (genreIndex==21){
+      }else if (genreIndex==15){
         genreIndex=0;
       }
       notifyListeners();}
@@ -75,6 +71,11 @@ class MainLayoutProvider extends ChangeNotifier {
   void changeTab(int index) {
     changeGenre(index);
     selectedTab = index;
+    notifyListeners();
+  }
+
+  void changeBrowseTabBar(int index) {
+    browseGenreIndex = index;
     notifyListeners();
   }
 
