@@ -4,7 +4,7 @@ import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.
 import '../../domain/repos/movies_repo.dart';
 import '../data_sources/movies_data_source.dart';
 
-@LazySingleton(as: MoviesRepo)
+@Singleton(as: MoviesRepo)
 class MoviesRepoImpl implements MoviesRepo {
   MoviesRepoImpl({required this.dataSource});
 

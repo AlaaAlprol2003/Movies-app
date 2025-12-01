@@ -5,7 +5,7 @@ import 'package:movies_app/core/resources/const_manager.dart';
 import '../models/movie.dart';
 import 'movies_data_source.dart';
 
-@LazySingleton(as: MoviesDataSource)
+@Singleton(as: MoviesDataSource)
 class MoviesApiDataSource implements MoviesDataSource {
   final Dio dio = Dio(BaseOptions(baseUrl: MoviesApiConstant.baseUrl));
 

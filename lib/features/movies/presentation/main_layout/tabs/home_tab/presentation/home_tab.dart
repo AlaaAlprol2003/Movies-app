@@ -33,7 +33,7 @@ class HomeTab extends StatelessWidget {
                     color: ColorsManager.white,)),
                 );
               } else if (state is HomeTabCarouselOnError) {
-                return Center(child: Text(state.message));
+                return Center(child: Text(state.message,style: TextStyle(color: ColorsManager.red),));
               }
               else if (state is HomeTabCarouselInitial) {
                 return Container();
@@ -87,7 +87,7 @@ class HomeTab extends StatelessWidget {
                     color: ColorsManager.white,)),
                 );
               } else if (state is HomeTabCategoryOnError) {
-                return Center(child: Text(state.message));
+                return Center(child: Text(state.message,style:TextStyle(color: ColorsManager.red),));
               }
               else if (state is HomeTabCategoryInitial) {
                 return Container();
@@ -98,9 +98,9 @@ class HomeTab extends StatelessWidget {
                 return
                   Column(
                     children: [
-                      CategoryListView(categoryName: provider.genres[provider.selectedGenre], movies: category1),
-                      CategoryListView(categoryName: provider.genres[provider.selectedGenre+1], movies: category2),
-                      CategoryListView(categoryName: provider.genres[provider.selectedGenre+2], movies: category3),
+                      CategoryListView(categoryName: provider.genres[provider.genreIndex], movies: category1),
+                      CategoryListView(categoryName: provider.genres[provider.genreIndex+1], movies: category2),
+                      CategoryListView(categoryName: provider.genres[provider.genreIndex+2], movies: category3),
                     ],
                   );
               } else {

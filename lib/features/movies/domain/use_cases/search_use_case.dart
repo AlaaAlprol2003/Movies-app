@@ -8,8 +8,6 @@ class SearchUseCase {
   SearchUseCase({required this.moviesRepo});
 
   Future<Either<String, List<MovieSummaryEntity>>> call({
-    int? limit,
-    String? genres,
     String? queryTerm,
   }) async {
     return await moviesRepo.getMovies(queryTerm: queryTerm);
