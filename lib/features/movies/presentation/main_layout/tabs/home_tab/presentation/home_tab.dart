@@ -20,48 +20,48 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  bool _fetched = false;
+   bool _fetched = false;
   int? _lastGenreIndex;
-
+  late MainLayoutProvider _provider;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final provider = Provider.of<MainLayoutProvider>(context, listen: false);
+    _provider = Provider.of<MainLayoutProvider>(context, listen: false);
     final cubit = context.read<HomeTabCategoryCubit>();
 
     if (!_fetched) {
       cubit.fetchCategoryMovies(
-        genre1: provider.genres[provider.genreIndex],
-        genre2: provider.genres[provider.genreIndex + 1],
-        genre3: provider.genres[provider.genreIndex + 2],
+        genre1: _provider.genres[_provider.genreIndex],
+        genre2: _provider.genres[_provider.genreIndex + 1],
+        genre3: _provider.genres[_provider.genreIndex + 2],
       );
       _fetched = true;
-      _lastGenreIndex = provider.genreIndex;
+      _lastGenreIndex = _provider.genreIndex;
     }
 
-    provider.addListener(_onGenreChange);
+    _provider.addListener(_onGenreChange);
   }
 
   void _onGenreChange() {
-    final provider = Provider.of<MainLayoutProvider>(context, listen: false);
+    if (!mounted) return; 
 
-    if (_lastGenreIndex == provider.genreIndex) return;
-    _lastGenreIndex = provider.genreIndex;
+  if (_lastGenreIndex == _provider.genreIndex) return;
+  _lastGenreIndex = _provider.genreIndex;
 
-    final cubit = context.read<HomeTabCategoryCubit>();
-    cubit.fetchCategoryMovies(
-      genre1: provider.genres[provider.genreIndex],
-      genre2: provider.genres[provider.genreIndex + 1],
-      genre3: provider.genres[provider.genreIndex + 2],
-    );
+  final cubit = context.read<HomeTabCategoryCubit>();
+  cubit.fetchCategoryMovies(
+    genre1: _provider.genres[_provider.genreIndex],
+    genre2: _provider.genres[_provider.genreIndex + 1],
+    genre3: _provider.genres[_provider.genreIndex + 2],
+  );
   }
 
   @override
   void dispose() {
-    final provider = Provider.of<MainLayoutProvider>(context, listen: false);
-    provider.removeListener(_onGenreChange);
+    _provider.removeListener(_onGenreChange);
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
