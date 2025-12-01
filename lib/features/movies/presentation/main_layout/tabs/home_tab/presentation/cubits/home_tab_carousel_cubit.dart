@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/domain/use_cases/carousel_movies_use_case.dart';
 import 'cubit_states.dart';
 
+@lazySingleton
 class HomeTabCarouselCubit extends Cubit<HomeTabCarouselState> {
   final CarouselMoviesUseCase carouselMoviesUseCase;
 
