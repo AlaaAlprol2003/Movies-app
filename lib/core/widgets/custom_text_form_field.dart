@@ -31,7 +31,6 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: isObscure,
       cursorColor: ColorsManager.white,
       keyboardType:keyboardType ,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: preIcon,
