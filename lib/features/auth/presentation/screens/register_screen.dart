@@ -33,7 +33,7 @@ class RegisterScreen extends StatelessWidget {
             child: Form(
               key: provider.formKey,
               child: Padding(
-                padding: REdgeInsets.symmetric(horizontal: 12.0, vertical: 16),
+                padding: REdgeInsets.only(left: 12.0, right: 12,top: 16,bottom: 32),
                 child: Column(
                   children: [
                     SizedBox(
@@ -47,8 +47,8 @@ class RegisterScreen extends StatelessWidget {
                             provider.pickAvatarImage(index);
                           },
                           enlargeCenterPage: true,
-                          enlargeFactor: 0.45,
-                          viewportFraction: 0.56,
+                          enlargeFactor: 0.55,
+                          viewportFraction: 0.55,
                         ),
                       ),
                     ),

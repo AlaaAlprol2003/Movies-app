@@ -9,6 +9,7 @@ class ThemeManager {
 
     scaffoldBackgroundColor: ColorsManager.black,
     appBarTheme: AppBarThemeData(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: ColorsManager.black,
       centerTitle: true,
       iconTheme: IconThemeData(color: ColorsManager.yellow),
