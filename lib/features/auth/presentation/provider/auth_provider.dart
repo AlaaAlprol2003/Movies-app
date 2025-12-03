@@ -1,4 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print, unused_local_variable
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:movies_app/core/resources/colors_manager.dart';
+import 'package:movies_app/core/resources/routes_manager.dart';
+import 'package:movies_app/core/resources/ui_utils.dart';
 
 class AuthProvider extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
@@ -49,6 +56,41 @@ class AuthProvider extends ChangeNotifier {
     if (formKey.currentState?.validate() == false) return;
     notifyListeners();
   }
+  void logInWithGoogle(BuildContext context) async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn.instance;
+
+      googleSignIn.initialize(
+        serverClientId:
+            "551680118902-88fcok9inf335hlunlp02ussqjl2trim.apps.googleusercontent.com",
+      );
+
+      GoogleSignInAccount googleUser = await googleSignIn.authenticate();
+
+      GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+      OAuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+      UiUtils.showLoadingDialog(context);
+
+     
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      UiUtils.hideLoadingDialog(context);
+      UiUtils.showToastificationBar(
+        context,
+        "Logged-In Successfully",
+        ColorsManager.white,
+        Colors.green,
+        Icons.check_circle,
+      );
+      Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
 
   @override
   void dispose() {

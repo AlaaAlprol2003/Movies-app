@@ -47,13 +47,13 @@ class LoginScreen extends StatelessWidget {
                       isObscure: provider.visiblePassword,
                       hintText: "Password",
                       keyboardType: TextInputType.visiblePassword,
-                      preIcon:ImageIcon(AssetImage(IconAssets.password)),
+                      preIcon: ImageIcon(AssetImage(IconAssets.password)),
                       sufIcon: IconButton(
                         onPressed: provider.changePasswordVisibilityState,
                         icon: Icon(
                           provider.visiblePassword
-                               ? Icons.visibility_off_rounded
-                              : Icons.visibility
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility,
                         ),
                       ),
                     ),
@@ -71,27 +71,51 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 35.h),
-                    BlocListener<AuthCubit,AuthState>(
-                      listenWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
-                      listener: (context,state){
-                        if(state is LoginLoading){
+                    BlocListener<AuthCubit, AuthState>(
+                      listenWhen: (prev, curr) =>
+                          prev.runtimeType != curr.runtimeType,
+                      listener: (context, state) {
+                        if (state is LoginLoading) {
                           UiUtils.showLoadingDialog(context);
-                        }else if(state is LoginError){
+                        } else if (state is LoginError) {
                           UiUtils.hideLoadingDialog(context);
-                          UiUtils.showToastificationBar(context, state.message, ColorsManager.white, ColorsManager.green, Icons.error);
-                        }else if(state is LoginSuccess){
+                          UiUtils.showToastificationBar(
+                            context,
+                            state.message,
+                            ColorsManager.white,
+                            ColorsManager.green,
+                            Icons.error,
+                          );
+                        } else if (state is LoginSuccess) {
                           UiUtils.hideLoadingDialog(context);
-                          UiUtils.showToastificationBar(context, "Logged-in Successfully", ColorsManager.white, ColorsManager.green, Icons.check_circle);
-                          Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+                          UiUtils.showToastificationBar(
+                            context,
+                            "Logged-in Successfully",
+                            ColorsManager.white,
+                            ColorsManager.green,
+                            Icons.check_circle,
+                          );
+                          Navigator.pushReplacementNamed(
+                            context,
+                            RoutesManager.mainLayout,
+                          );
                         }
                       },
-                      child: CustomElevatedButton(text: "Login", onPress: () {
-                         if(provider.formKey.currentState?.validate() == false) return ;
-                         BlocProvider.of<AuthCubit>(context).login(LoginRequest(
-                          email: provider.loginEmailController.text,
-                          password: provider.loginPasswordController.text,
-                         ));
-                      })),
+                      child: CustomElevatedButton(
+                        text: "Login",
+                        onPress: () {
+                          if (provider.formKey.currentState?.validate() ==
+                              false)
+                            return;
+                          BlocProvider.of<AuthCubit>(context).login(
+                            LoginRequest(
+                              email: provider.loginEmailController.text,
+                              password: provider.loginPasswordController.text,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                     SizedBox(height: 22.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +127,10 @@ class LoginScreen extends StatelessWidget {
                         CustomTextButton(
                           text: "Create One",
                           onPress: () {
-                            Navigator.pushNamed(context, RoutesManager.register);
+                            Navigator.pushNamed(
+                              context,
+                              RoutesManager.register,
+                            );
                           },
                         ),
                       ],
@@ -137,14 +164,14 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 28.h),
                     CustomElevatedButton(
                       text: "Login With Google",
-                      onPress: () {},
+                      onPress: () {
+                        provider.logInWithGoogle(context);
+                      },
                       icon: ImageIcon(AssetImage(IconAssets.google)),
                     ),
                     SizedBox(height: 24.h),
-                
-                    SizedBox(
-                      width: 120.w,
-                      child: CustomAnimatedToggle()),
+
+                    SizedBox(width: 120.w, child: CustomAnimatedToggle()),
                   ],
                 ),
               ),
