@@ -5,11 +5,13 @@ import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:safe_network_image/safe_network_image.dart';
 
 class MovieItem extends StatelessWidget {
-  const MovieItem({super.key, required this.pic, required this.rate,required this.movieId});
+  const MovieItem({super.key, required this.pic, required this.rate,required this.movieId,this.width,this.height});
 
  final String pic;
  final double rate;
  final int movieId;
+ final double? width;
+ final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class MovieItem extends StatelessWidget {
             child: SafeNetworkImage(
               url: pic,
               fit: BoxFit.cover,
+              width: width?? double.infinity,
+              height:height?? double.infinity,
             )
           ),
           Positioned(
