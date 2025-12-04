@@ -68,8 +68,16 @@ class MainLayoutProvider extends ChangeNotifier {
       }
       notifyListeners();}
   }
+  void onSeeMore(int index){
+    if(selectedTab == 2){
+      browseGenreIndex=0;
+      browseCubit.getMovies(limit: 30, genres:genres[0]);
+      notifyListeners();
+    }
+  }
 
   void changeTab(int index) {
+    onSeeMore(index);
     changeGenre(index);
     selectedTab = index;
     notifyListeners();

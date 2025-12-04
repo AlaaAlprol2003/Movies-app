@@ -122,7 +122,7 @@ class RegisterScreen extends StatelessWidget {
                           UiUtils.showLoadingDialog(context);
                         } else if (state is RegisterError) {
                           UiUtils.hideLoadingDialog(context);
-                          UiUtils.showToastificationBar(
+                          UiUtils.showToastNotificationBar(
                             context,
                             state.message,
                             ColorsManager.white,
@@ -131,7 +131,7 @@ class RegisterScreen extends StatelessWidget {
                           );
                         } else if (state is RegisterSuccess) {
                           UiUtils.hideLoadingDialog(context);
-                          UiUtils.showToastificationBar(
+                          UiUtils.showToastNotificationBar(
                             context,
                             "Successfull Registeration ",
                             ColorsManager.white,

@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../../../../../../../core/resources/colors_manager.dart';
 import '../../../../../../../../core/widgets/movie_item.dart';
 import '../../../../../domain/entities/movie_summary_entity.dart';
+import '../../../main_layout_provider.dart';
 
 class CategoryListView extends StatelessWidget {
   const CategoryListView({
     super.key,
     required this.categoryName,
     required this.movies,
+    required this.genreIndex,
   });
 
   final String categoryName;
   final List<MovieSummaryEntity> movies;
+  final int genreIndex;
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<MainLayoutProvider>(context);
     return Padding(
       padding: REdgeInsets.symmetric(vertical: 16, horizontal: 8),
       child: Column(
@@ -32,7 +37,11 @@ class CategoryListView extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  provider.changeBrowseTabBar(genreIndex);
+                  provider.browseCubit.getMovies(limit: 30, genres: provider.genres[genreIndex]);
+                  provider.changeTab(2);
+                },
                 child: Row(
                   children: [
                     Text(
@@ -62,9 +71,9 @@ class CategoryListView extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: movies.length,
               itemBuilder: (context, index) => MovieItem(
-                pic: movies[index].mediumCoverImage ?? '',
-                rate: movies[index].rating ?? 0.0,
-                movieId: movies[index].id ?? 0,
+                pic: movies[index].mediumCoverImage,
+                rate: movies[index].rating,
+                movieId: movies[index].id,
                 width: 140.w,
                 height: 200.h,
               ),

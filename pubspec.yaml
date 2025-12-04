@@ -48,6 +48,7 @@ dependencies:
   injectable: ^2.7.0
   get_it: ^9.1.1
   safe_network_image: ^1.0.1
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

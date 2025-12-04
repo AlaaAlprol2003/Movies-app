@@ -21,7 +21,7 @@ class UiUtils {
     Navigator.pop(context);
   }
 
-  static void showToastificationBar(
+  static void showToastNotificationBar(
     BuildContext context,
     String message,
     Color fgColor,

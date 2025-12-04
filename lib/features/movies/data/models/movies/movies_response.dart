@@ -11,13 +11,13 @@ class MoviesResponse {
    return MoviesResponse(
      status: json['status'],
      statusMessage: json['status_message'],
-     data: json['data'] != null ? Data.fromJson(json['data']) : null,
+     data:Data.fromJson(json['data']),
    );
 
   }
 
- final String? status;
- final String? statusMessage;
- final Data? data;
+ final String status;
+ final String statusMessage;
+ final Data data;
 
 }

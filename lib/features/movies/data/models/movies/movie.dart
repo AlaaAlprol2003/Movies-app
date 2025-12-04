@@ -7,50 +7,37 @@ class Movie {
       required this.title,
       required this.year,
       required this.rating,
-      required this.genres,
       required this.backgroundImage,
       required this.mediumCoverImage,
-      required this.largeCoverImage,
       required this.state,
-      required this.dateUploaded,
       });
 
- factory Movie.fromJson(dynamic json) {
-   return Movie(
-     id: json['id'],
-     url: json['url'],
-     title: json['title'],
-     year: json['year'],
-     rating: (json['rating'] != null) ? (json['rating'] as num).toDouble() : null,
-     genres: json['genres'] != null ? json['genres'].cast<String>() : [],
-     backgroundImage: json['background_image'],
-     mediumCoverImage: json['medium_cover_image'],
-     largeCoverImage: json['large_cover_image'],
-     state: json['state'],
-     dateUploaded: json['date_uploaded'],
-
-   );
-
+  factory Movie.fromJson(dynamic json) {
+    return Movie(
+      id: json['id'] ?? 0,
+      url: json['url'] ?? '',
+      title: json['title'] ?? '',
+      year: json['year'] ?? 0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      backgroundImage: json['background_image'] ?? '',
+      mediumCoverImage: json['medium_cover_image'] ?? '',
+      state: json['state'] ?? '',
+    );
   }
-  final int? id;
-  final String? url;
-  final String? title;
-  final int? year;
-  final double? rating;
-  final List<String>? genres;
-  final String? backgroundImage;
-  final String? mediumCoverImage;
-  final String? largeCoverImage;
-  final String? state;
-  final String? dateUploaded;
+  final int id;
+  final String url;
+  final String title;
+  final int year;
+  final double rating;
+  final String backgroundImage;
+  final String mediumCoverImage;
+  final String state;
 
   MovieSummaryEntity toMovieSummaryEntity(){
     return MovieSummaryEntity(
       id: id,
       rating: rating,
-      genres: genres,
       mediumCoverImage: mediumCoverImage,
-      largeCoverImage: largeCoverImage
     );
   }
 

@@ -2,7 +2,6 @@ import 'package:movies_app/features/movies/data/models/movie_details/Cast.dart';
 
 import '../../../domain/entities/movie_detials_entity.dart';
 
-
 class DetailedMovie {
   const DetailedMovie({
     required this.id,
@@ -20,47 +19,50 @@ class DetailedMovie {
     required this.mediumScreenshotImage2,
     required this.mediumScreenshotImage3,
     required this.cast,
-    required this.dateUploaded,
   });
 
   factory DetailedMovie.fromJson(dynamic json) {
     return DetailedMovie(
-      id: json['id'],
-      url: json['url'],
-      title: json['title'],
-      year: json['year'],
-      rating: (json['rating'] != null) ? (json['rating'] as num).toDouble() : null,
-      runtime: json['runtime'],
-      genres: json['genres'] != null ? json['genres'].cast<String>() : [],
-      likeCount: json['like_count'],
-      descriptionFull: json['description_full'],
-      backgroundImage: json['background_image'],
-      mediumCoverImage: json['medium_cover_image'],
-      mediumScreenshotImage1: json['medium_screenshot_image1'],
-      mediumScreenshotImage2: json['medium_screenshot_image2'],
-      mediumScreenshotImage3: json['medium_screenshot_image3'],
-      cast: json['cast'] != null ? (json['cast'] as List).map((i) => Cast.fromJson(i)).toList() : [],
-      dateUploaded: json['date_uploaded'],
+      id: json['id']??0,
+      url: json['url']??'',
+      title: json['title']??'',
+      year: json['year']??0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      runtime: json['runtime']??0,
+      genres: (json['genres'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList()
+          ?? [],
+      likeCount: json['like_count']??0,
+      descriptionFull: json['description_full']??'',
+      backgroundImage: json['background_image']??'',
+      mediumCoverImage: json['medium_cover_image']??'',
+      mediumScreenshotImage1: json['medium_screenshot_image1']??'',
+      mediumScreenshotImage2: json['medium_screenshot_image2']??'',
+      mediumScreenshotImage3: json['medium_screenshot_image3']??'',
+      cast:
+          (json['cast'] as List<dynamic>?)
+              ?.map((i) => Cast.fromJson(i))
+              .toList() ??
+          [],
     );
   }
 
-  final int? id;
-  final String? url;
-  final String? title;
-  final int? year;
-  final double? rating;
-  final int? runtime;
-  final List<String>? genres;
-  final int? likeCount;
-  final String? descriptionFull;
-  final String? backgroundImage;
-  final String? mediumCoverImage;
-  final String? mediumScreenshotImage1;
-  final String? mediumScreenshotImage2;
-  final String? mediumScreenshotImage3;
-  final List<Cast>? cast;
-  final String? dateUploaded;
-
+  final int id;
+  final String url;
+  final String title;
+  final int year;
+  final double rating;
+  final int runtime;
+  final List<String> genres;
+  final int likeCount;
+  final String descriptionFull;
+  final String backgroundImage;
+  final String mediumCoverImage;
+  final String mediumScreenshotImage1;
+  final String mediumScreenshotImage2;
+  final String mediumScreenshotImage3;
+  final List<Cast> cast;
 
   MovieDetailsEntity toMovieDetailsEntity() {
     return MovieDetailsEntity(
@@ -78,8 +80,6 @@ class DetailedMovie {
       mediumScreenshotImage2: mediumScreenshotImage2,
       mediumScreenshotImage3: mediumScreenshotImage3,
       cast: cast,
-      dateUploaded: dateUploaded,
     );
   }
-
 }

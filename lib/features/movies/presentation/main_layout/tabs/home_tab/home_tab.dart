@@ -21,15 +21,24 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   MainLayoutProvider? _provider;
-
   bool _fetched = false;
   int? _lastGenreIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    // هضيف الليسنر هنا بدل didChangeDependencies
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _provider = Provider.of<MainLayoutProvider>(context, listen: false);
+    _provider ??= Provider.of<MainLayoutProvider>(context, listen: false);
+
+    // أضمن إني أضيف الليسنر مرة واحدة فقط
+    _provider!.removeListener(_onGenreChange);
+    _provider!.addListener(_onGenreChange);
 
     final cubit = context.read<HomeTabCategoryCubit>();
 
@@ -42,11 +51,11 @@ class _HomeTabState extends State<HomeTab> {
       _fetched = true;
       _lastGenreIndex = _provider!.genreIndex;
     }
-
-    _provider!.addListener(_onGenreChange);
   }
 
   void _onGenreChange() {
+    if (!mounted) return;
+
     if (_provider == null) return;
 
     if (_lastGenreIndex == _provider!.genreIndex) return;
@@ -64,10 +73,8 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void dispose() {
     _provider?.removeListener(_onGenreChange);
-
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +112,7 @@ class _HomeTabState extends State<HomeTab> {
                     children: [
                       AnimatedMovieBg(
                           pic: movies[provider.selectedCarouselTab]
-                              .mediumCoverImage ??
-                              ''),
+                              .mediumCoverImage),
                       Padding(
                         padding: REdgeInsets.symmetric(vertical: 130),
                         child: CarouselSlider(
@@ -127,9 +133,9 @@ class _HomeTabState extends State<HomeTab> {
                           items: movies
                               .map(
                                 (movie) => MovieItem(
-                                pic: movie.mediumCoverImage ?? '',
-                                rate: movie.rating ?? 0.0,
-                                movieId: movie.id ?? 0,
+                                pic: movie.mediumCoverImage,
+                                rate: movie.rating,
+                                movieId: movie.id,
                               ),
                           )
                               .toList(),
@@ -172,15 +178,15 @@ class _HomeTabState extends State<HomeTab> {
                     CategoryListView(
                         categoryName:
                         provider.genres[provider.genreIndex], // genre1
-                        movies: category1),
+                        movies: category1,genreIndex: provider.genreIndex,),
                     CategoryListView(
                         categoryName:
                         provider.genres[provider.genreIndex + 1], // genre2
-                        movies: category2),
+                        movies: category2,genreIndex: provider.genreIndex+1,),
                     CategoryListView(
                         categoryName:
                         provider.genres[provider.genreIndex + 2], // genre3
-                        movies: category3),
+                        movies: category3,genreIndex: provider.genreIndex+2,),
                   ],
                 );
               } else {

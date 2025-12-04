@@ -10,7 +10,9 @@ import 'package:movies_app/features/movies/presentation/movie_details/widgets/ge
 import 'package:movies_app/features/movies/presentation/movie_details/widgets/movie_gradient.dart';
 import 'package:movies_app/features/movies/presentation/movie_details/widgets/screen_shots_display.dart';
 import 'package:movies_app/features/movies/presentation/movie_details/widgets/similar_display.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/resources/assets_manager.dart';
+import '../../../../core/resources/ui_utils.dart';
 import 'cubit/cubit_states.dart';
 import 'cubit/movie_details_cubit.dart';
 import 'cubit/movie_suggestions_cubit.dart';
@@ -74,12 +76,14 @@ class MovieDetails extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         MovieGradient(
-                          pic: movie.mediumCoverImage ?? '',
-                          movieTitle: movie.title ?? '',
+                          pic: movie.mediumCoverImage,
+                          movieTitle: movie.title,
                           movieYear: movie.year.toString(),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            openUrl(movie.url,context);
+                          },
                           child: SvgPicture.asset(IconAssets.play),
                         ),
                       ],
@@ -92,7 +96,9 @@ class MovieDetails extends StatelessWidget {
                       children: [
                         CustomElevatedButton(
                           text: "Watch",
-                          onPress: () {},
+                          onPress: () {
+                            openUrl(movie.url,context);
+                          },
                           color: ColorsManager.red,
                           textColor: ColorsManager.white,
                         ),
@@ -126,23 +132,34 @@ class MovieDetails extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         Visibility(
-                          visible: movie.mediumScreenshotImage1 != null,
+                          visible: movie.mediumScreenshotImage1.isNotEmpty,
                           child: ScreenShotsDisplay(
-                            screenShot: movie.mediumScreenshotImage1 ?? '',
+                            screenShot: movie.mediumScreenshotImage1,
+                          ),
+                        ),
+                        Visibility(
+                          visible: movie.mediumScreenshotImage1 == '' && movie.mediumScreenshotImage2=='' && movie.mediumScreenshotImage3=='',
+                          child: Text(
+                            "No Screen Shots Available",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: ColorsManager.white,
+                            ),
                           ),
                         ),
                         SizedBox(height: 20.h),
                         Visibility(
-                          visible: movie.mediumScreenshotImage2 != null,
+                          visible: movie.mediumScreenshotImage2.isNotEmpty,
                           child: ScreenShotsDisplay(
-                            screenShot: movie.mediumScreenshotImage2 ?? '',
+                            screenShot: movie.mediumScreenshotImage2,
                           ),
                         ),
                         SizedBox(height: 20.h),
                         Visibility(
-                          visible: movie.mediumScreenshotImage3 != null,
+                          visible: movie.mediumScreenshotImage3.isNotEmpty,
                           child: ScreenShotsDisplay(
-                            screenShot: movie.mediumScreenshotImage3 ?? '',
+                            screenShot: movie.mediumScreenshotImage3,
                           ),
                         ),
                         SizedBox(height: 20.h),
@@ -155,10 +172,7 @@ class MovieDetails extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 20.h),
-                        BlocBuilder<
-                          MovieSuggestionsCubit,
-                          MovieSuggestionsState
-                        >(
+                        BlocBuilder<MovieSuggestionsCubit, MovieSuggestionsState>(
                           builder: (context, state) {
                             if (state is MovieSuggestionsLoading) {
                               return Center(child: CircularProgressIndicator());
@@ -173,7 +187,14 @@ class MovieDetails extends StatelessWidget {
                             }
                             if (state is MovieSuggestionsOnSuccess) {
                               final movies = state.movies;
-                              return SimilarDisplay(movies: movies);
+                              return movies.isEmpty? Text(
+                                "No Similar Movies Found",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorsManager.white,
+                                ),
+                              ): SimilarDisplay(movies: movies);
                             } else {
                               return SizedBox();
                             }
@@ -190,9 +211,9 @@ class MovieDetails extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         Text(
-                          movie.descriptionFull!.trim().isEmpty
+                          movie.descriptionFull.trim().isEmpty
                               ? "No Summary Available"
-                              : movie.descriptionFull!,
+                              : movie.descriptionFull,
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
@@ -252,4 +273,15 @@ class MovieDetails extends StatelessWidget {
       ),
     );
   }
+  Future<void> openUrl(String url,BuildContext context) async {
+    final uri = Uri.tryParse(url);
+    if(uri == null || url.isEmpty){
+    return UiUtils.showToastNotificationBar(context, "Movie Link Not Found", ColorsManager.white, ColorsManager.red, Icons.error);
+    }
+    await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+  }
+
 }

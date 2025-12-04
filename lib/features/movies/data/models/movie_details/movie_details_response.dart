@@ -9,8 +9,8 @@ class MovieDetailsResponse {
 
  factory MovieDetailsResponse.fromJson(dynamic json) {
     return MovieDetailsResponse(
-      status: json['status'],
-      statusMessage: json['status_message'],
+      status: json['status']??'',
+      statusMessage: json['status_message']??'',
       data: Data.fromJson(json['data']),
     );
   }

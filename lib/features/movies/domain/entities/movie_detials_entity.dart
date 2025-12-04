@@ -16,21 +16,19 @@ class MovieDetailsEntity{
     required this.mediumScreenshotImage2,
     required this.mediumScreenshotImage3,
     required this.cast,
-    required this.dateUploaded,
 });
-  final int? id;
-  final String? url;
-  final String? title;
-  final int? year;
-  final double? rating;
-  final int? runtime;
-  final List<String>? genres;
-  final int? likeCount;
-  final String? descriptionFull;
-  final String? mediumCoverImage;
-  final String? mediumScreenshotImage1;
-  final String? mediumScreenshotImage2;
-  final String? mediumScreenshotImage3;
+  final int id;
+  final String url;
+  final String title;
+  final int year;
+  final double rating;
+  final int runtime;
+  final List<String> genres;
+  final int likeCount;
+  final String descriptionFull;
+  final String mediumCoverImage;
+  final String mediumScreenshotImage1;
+  final String mediumScreenshotImage2;
+  final String mediumScreenshotImage3;
   final List<Cast>? cast;
-  final String? dateUploaded;
 }

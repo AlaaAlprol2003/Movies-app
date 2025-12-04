@@ -73,9 +73,9 @@ class BrowseTab extends StatelessWidget {
                             itemCount: state.movies.length,
                             itemBuilder: (context, index) {
                               return MovieItem(
-                                pic: movies[index].mediumCoverImage ??'',
-                                rate: movies[index].rating??0.0,
-                                movieId: movies[index].id??0,
+                                pic: movies[index].mediumCoverImage,
+                                rate: movies[index].rating,
+                                movieId: movies[index].id,
                               );
                             },
                           ),

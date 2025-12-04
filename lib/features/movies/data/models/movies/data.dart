@@ -12,15 +12,15 @@ class Data {
      movieCount: json['movie_count'],
      limit: json['limit'],
      pageNumber: json['page_number'],
-     movies: json['movies'] != null ? (json['movies'] as List).map((i) => Movie.fromJson(i)).toList() : null,
+     movies: (json['movies'] as List).map((i) => Movie.fromJson(i)).toList(),
 
    );
 
   }
- final int? movieCount;
- final int? limit;
- final int? pageNumber;
- final List<Movie>? movies;
+ final int movieCount;
+ final int limit;
+ final int pageNumber;
+ final List<Movie> movies;
 
 
 }
