@@ -25,7 +25,7 @@ class MovieItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: SafeNetworkImage(
               url: pic,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               width: width ?? double.infinity,
               height:height ?? double.infinity,
             )
@@ -34,11 +34,11 @@ class MovieItem extends StatelessWidget {
             top: 10.h,
             left: 8.w,
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: REdgeInsets.symmetric(
                   horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: ColorsManager.black.withValues(alpha:.5),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
               ),
               child: Row(
                 children: [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
@@ -41,7 +40,7 @@ class _SearchTabState extends State<SearchTab> {
               ),
               decoration: InputDecoration(
                 hintText: "Search",
-                prefixIcon: SvgPicture.asset(IconAssets.search,),
+                prefixIcon: Image.asset(IconAssets.search1),
               ),
             ),
             SizedBox(height: 16.h),

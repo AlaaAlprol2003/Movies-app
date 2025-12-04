@@ -33,4 +33,5 @@ abstract class IconAssets {
   static const String clock = '$base/clock_icon.svg';
   static const String heart = '$base/heart_icon.svg';
   static const String star = '$base/star_icon.svg';
+  static const String search1 = '$base/search1.png';
 }

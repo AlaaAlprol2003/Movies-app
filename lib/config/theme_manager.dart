@@ -21,6 +21,7 @@ class ThemeManager {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        padding: REdgeInsets.symmetric(horizontal: 16, vertical: 12),
         backgroundColor: ColorsManager.yellow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.r),

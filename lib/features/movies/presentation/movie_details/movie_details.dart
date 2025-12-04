@@ -104,6 +104,7 @@ class MovieDetails extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomContainer(
                               text: movie.runtime.toString(),
