@@ -12,6 +12,7 @@ abstract class RoutesManager {
   static const String register = "register";
   static const String forgetPassword = "forgetPassword";
   static const String mainLayout = "mainLayout";
+  static const String editProfile = "editProfile";
 
   static Map<String, WidgetBuilder> routes = {
     login: (context) => ChangeNotifierProvider(

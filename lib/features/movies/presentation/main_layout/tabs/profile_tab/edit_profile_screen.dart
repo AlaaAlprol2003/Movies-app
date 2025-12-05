@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
+import 'package:movies_app/core/widgets/custom_text_form_field.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String currentName;
@@ -92,7 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     CircleAvatar(
                       radius: 60.r,
-                      backgroundColor: const Color(0xFF87CEEB),
+                      backgroundColor: ColorsManager.whiteBlue,
                       child: ClipOval(
                         child: Image.asset(
                           ImagesAssets.avatar8,
@@ -133,19 +134,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(height: 30.h),
-              _buildInputField(
+              CustomTextFormField(hintText: 'John Safwat',
+                preIcon: Icon(
+                  Icons.person,
+                  color: ColorsManager.white,
+                  size: 24.sp,
+                ),
                 controller: _nameController,
-                icon: Icons.person,
-                hintText: 'John Safwat',
-                enabled: !_showAvatarPicker,
+
+
               ),
               SizedBox(height: 16.h),
-              _buildInputField(
-                controller: _phoneController,
-                icon: Icons.phone,
-                hintText: '01200000000',
-                enabled: false, // Phone is disabled in the design
-              ),
+              // _buildInputField(
+              //   controller: _nameController,
+              //   icon: Icons.person,
+              //   hintText: 'John Safwat',
+              //   enabled: !_showAvatarPicker,
+              // ),
+              SizedBox(height: 16.h),
+              CustomTextFormField(hintText: '01200000000',preIcon: Icon(Icons.call,color: ColorsManager.white,size: 24.sp,),controller: _nameController,),
+
+              // _buildInputField(
+              //   controller: _phoneController,
+              //   icon: Icons.phone,
+              //   hintText: '01200000000',
+              //   enabled: false, // Phone is disabled in the design
+              // ),
               SizedBox(height: 30.h),
               Align(
                 alignment: Alignment.centerLeft,
@@ -266,7 +280,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Container(
       padding: REdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF2A2A2A),
+        color: ColorsManager.black,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: GridView.builder(

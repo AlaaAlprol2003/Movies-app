@@ -4,6 +4,7 @@ import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
 import 'edit_profile_screen.dart';
+import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({Key? key}) : super(key: key);
@@ -14,6 +15,11 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  // User data state variables
+  String _userName = 'John Safwat';
+  String _userPhone = '01200000000';
+  String _userAvatar = ImagesAssets.avatar8;
 
   @override
   void initState() {
@@ -26,10 +32,6 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
     _tabController.dispose();
     super.dispose();
   }
-
-  String _userName = 'John Safwat';
-  String _userPhone = '01200000000';
-  String _userAvatar = 'assets/images/profile_avatar.png';
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                         radius: 40.r,
                         child: ClipOval(
                           child: Image.asset(
-                            ImagesAssets.avatar8,
+                            _userAvatar, // Use state variable
                             width: 100.w,
                             height: 100.h,
                             fit: BoxFit.cover,
@@ -67,8 +69,46 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _buildStatColumn('12', 'Wish List'),
-                            _buildStatColumn('10', 'History'),
+                            Column(
+                              children: [
+                                Text(
+                                  "12",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  "Watch List",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14.sp, // Fixed font size
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "10",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  "History",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14.sp, // Fixed font size
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -78,7 +118,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      _userName,
+                      _userName, // Use state variable
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.sp,
@@ -93,8 +133,10 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                         flex: 3,
                         child: SizedBox(
                           height: 48.h,
-                          child: ElevatedButton(
-                            onPressed: () async {
+                          child: CustomElevatedButton(
+                            text: "Edit Profile",
+                            onPress: () async {
+                              // FIXED: Navigate to EditProfileScreen instead of LoginScreen
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -106,29 +148,15 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                                 ),
                               );
 
+                              // Update profile data if returned from edit screen
                               if (result != null && result is Map<String, dynamic>) {
                                 setState(() {
-                                  _userName = result['name'];
-                                  _userPhone = result['phone'];
-                                  _userAvatar = result['avatar'];
+                                  _userName = result['name'] ?? _userName;
+                                  _userPhone = result['phone'] ?? _userPhone;
+                                  _userAvatar = result['avatar'] ?? _userAvatar;
                                 });
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorsManager.yellow,
-                              foregroundColor: ColorsManager.black,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.r),
-                              ),
-                            ),
-                            child: Text(
-                              'Edit Profile',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
                           ),
                         ),
                       ),
@@ -206,100 +234,70 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                 ],
               ),
             ),
+            //Tab Bar view
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildWatchListView(),
-                  _buildHistoryView(),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          ImagesAssets.empity,
+                          width: 150.w,
+                          height: 150.h,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.movie_outlined,
+                              size: 100.sp,
+                              color: ColorsManager.yellow,
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'Your watchlist is empty',
+                          style: TextStyle(
+                            color: ColorsManager.grey,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          ImagesAssets.empity,
+                          width: 150.w,
+                          height: 150.h,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.history,
+                              size: 100.sp,
+                              color: ColorsManager.yellow,
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'No viewing history yet',
+                          style: TextStyle(
+                            color: ColorsManager.grey,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildStatColumn(String count, String label) {
-    return Column(
-      children: [
-        Text(
-          count,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 24.sp,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWatchListView() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            ImagesAssets.empity,
-            width: 150.w,
-            height: 150.h,
-            errorBuilder: (context, error, stackTrace) {
-              return Icon(
-                Icons.movie_outlined,
-                size: 100.sp,
-                color: ColorsManager.yellow,
-              );
-            },
-          ),
-          SizedBox(height: 20.h),
-          Text(
-            'Your watchlist is empty',
-            style: TextStyle(
-              color: ColorsManager.grey,
-              fontSize: 16.sp,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHistoryView() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/popcorn_empty.png',
-            width: 150.w,
-            height: 150.h,
-            errorBuilder: (context, error, stackTrace) {
-              return Icon(
-                Icons.history,
-                size: 100.sp,
-                color: ColorsManager.yellow,
-              );
-            },
-          ),
-          SizedBox(height: 20.h),
-          Text(
-            'No viewing history yet',
-            style: TextStyle(
-              color: ColorsManager.grey,
-              fontSize: 16.sp,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -316,7 +314,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
           title: Text(
             'Logout',
             style: TextStyle(
-              color: ColorsManager.white,
+              color: Colors.white,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -344,13 +342,15 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-
-
-
+                // Navigate to login screen
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorsManager.red,
-                foregroundColor: ColorsManager.white,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
