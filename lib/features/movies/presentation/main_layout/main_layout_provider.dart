@@ -9,6 +9,9 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_ta
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/profile_tab.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/search_tab.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/profile_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/watchlist_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/history_cubit.dart';
 
 class MainLayoutProvider extends ChangeNotifier {
   late HomeTabCarouselCubit homeTabCarouselCubit = serviceLocator.get<HomeTabCarouselCubit>()..fetchCarouselMovies(limit: 5);
@@ -17,6 +20,9 @@ class MainLayoutProvider extends ChangeNotifier {
     genre3: genres[genreIndex+2],);
   late SearchCubit searchCubit = serviceLocator.get<SearchCubit>();
   late BrowseCubit browseCubit = serviceLocator.get<BrowseCubit>()..getMovies(limit: 30,);
+  late ProfileCubit profileCubit = ProfileCubit();
+  late WatchListCubit watchListCubit = serviceLocator.get<WatchListCubit>();
+  late HistoryCubit historyCubit = serviceLocator.get<HistoryCubit>();
   late List<Widget> tabs = [
     MultiBlocProvider(
       providers: [
@@ -30,7 +36,14 @@ class MainLayoutProvider extends ChangeNotifier {
     BlocProvider.value(
       value: browseCubit,
         child: BrowseTab()),
-    ProfileTab(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: profileCubit),
+        BlocProvider.value(value: watchListCubit),
+        BlocProvider.value(value: historyCubit),
+      ],
+      child: ProfileTab(),
+    ),
   ];
   int selectedTab = 0;
   int genreIndex = 0;

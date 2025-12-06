@@ -44,4 +44,19 @@ class MoviesApiDataSource implements MoviesDataSource {
       return Left(e.toString());
     }
   }
+
+
+  @override
+  Future<Either<String, List<Movie>>> getWatchList() async {
+    // TODO: Implement actual API call
+    // For now returning empty list or mock data
+    return Right([]);
+  }
+
+  @override
+  Future<Either<String, List<Movie>>> getHistory() async {
+    // TODO: Implement actual API call
+    // For now returning empty list or mock data
+    return Right([]);
+  }
 }

@@ -41,6 +41,10 @@ import 'package:movies_app/features/movies/domain/use_cases/browse_use_case.dart
     as _i803;
 import 'package:movies_app/features/movies/domain/use_cases/carousel_movies_use_case.dart'
     as _i851;
+import 'package:movies_app/features/movies/domain/use_cases/get_history_use_case.dart'
+    as _i420;
+import 'package:movies_app/features/movies/domain/use_cases/get_watchlist_use_case.dart'
+    as _i828;
 import 'package:movies_app/features/movies/domain/use_cases/home_tab_categorise_use_case.dart'
     as _i92;
 import 'package:movies_app/features/movies/domain/use_cases/search_use_case.dart'
@@ -51,6 +55,12 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_ta
     as _i432;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/cubits/home_tab_category_cubit.dart'
     as _i859;
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/history_cubit.dart'
+    as _i382;
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/profile_cubit.dart'
+    as _i757;
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/watchlist_cubit.dart'
+    as _i532;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart'
     as _i830;
 
@@ -61,6 +71,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i757.ProfileCubit>(() => _i757.ProfileCubit());
     gh.singleton<_i922.AuthLocalDataSource>(
       () => _i825.AuthSharedPrefsLocalDataSource(),
     );
@@ -80,13 +91,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i584.SearchUseCase>(
       () => _i584.SearchUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
     );
+    gh.factory<_i420.GetHistoryUseCase>(
+      () => _i420.GetHistoryUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
+    );
+    gh.factory<_i828.GetWatchListUseCase>(
+      () => _i828.GetWatchListUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
+    );
     gh.factory<_i92.HomeTabCategoriseUseCase>(
       () => _i92.HomeTabCategoriseUseCase(moviesRepo: gh<_i463.MoviesRepo>()),
+    );
+    gh.factory<_i532.WatchListCubit>(
+      () => _i532.WatchListCubit(
+        getWatchListUseCase: gh<_i828.GetWatchListUseCase>(),
+      ),
     );
     gh.factory<_i859.HomeTabCategoryCubit>(
       () => _i859.HomeTabCategoryCubit(
         homeTabCategoriseUseCase: gh<_i92.HomeTabCategoriseUseCase>(),
       ),
+    );
+    gh.factory<_i382.HistoryCubit>(
+      () =>
+          _i382.HistoryCubit(getHistoryUseCase: gh<_i420.GetHistoryUseCase>()),
     );
     gh.lazySingleton<_i432.HomeTabCarouselCubit>(
       () => _i432.HomeTabCarouselCubit(
