@@ -31,31 +31,5 @@ class MoviesRepoImpl implements MoviesRepo {
       return Left(e.toString());
     }
   }
-  @override
-  Future<Either<String, List<MovieSummaryEntity>>> getWatchList() async {
-    try {
-      final result = await dataSource.getWatchList();
-      return result.fold(
-        (failure) => Left(failure),
-        (movies) =>
-            Right(movies.map((movie) => movie.toMovieSummaryEntity()).toList()),
-      );
-    } catch (e) {
-      return Left(e.toString());
-    }
-  }
 
-  @override
-  Future<Either<String, List<MovieSummaryEntity>>> getHistory() async {
-    try {
-      final result = await dataSource.getHistory();
-      return result.fold(
-        (failure) => Left(failure),
-        (movies) =>
-            Right(movies.map((movie) => movie.toMovieSummaryEntity()).toList()),
-      );
-    } catch (e) {
-      return Left(e.toString());
-    }
-  }
 }

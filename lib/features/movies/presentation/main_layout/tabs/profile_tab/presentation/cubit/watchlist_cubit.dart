@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.dart';
-import 'package:movies_app/features/movies/domain/use_cases/get_watchlist_use_case.dart';
+
+import '../../../../../../domain/use_cases/search_use_case.dart';
 
 @injectable
 class WatchListCubit extends Cubit<WatchListState> {
-  final GetWatchListUseCase getWatchListUseCase;
+  final SearchUseCase getWatchListUseCase;
 
   WatchListCubit({required this.getWatchListUseCase}) : super(WatchListInitial());
 

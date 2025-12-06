@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.dart';
-import 'package:movies_app/features/movies/domain/use_cases/get_history_use_case.dart';
+import 'package:movies_app/features/movies/domain/use_cases/search_use_case.dart';
 
 @injectable
 class HistoryCubit extends Cubit<HistoryState> {
-  final GetHistoryUseCase getHistoryUseCase;
+  final SearchUseCase getHistoryUseCase;
 
   HistoryCubit({required this.getHistoryUseCase}) : super(HistoryInitial());
 

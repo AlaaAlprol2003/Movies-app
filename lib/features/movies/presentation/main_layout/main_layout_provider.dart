@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/di/service_locator.dart';
+import 'package:movies_app/features/auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/browse_tab.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/cubit/browse_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/cubits/home_tab_carousel_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/cubits/home_tab_category_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/presentation/home_tab.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/profile_tab.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/history_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/watchlist_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/screens/profile_tab.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/search_tab.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/profile_cubit.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/watchlist_cubit.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/cubit/history_cubit.dart';
 
 class MainLayoutProvider extends ChangeNotifier {
   late HomeTabCarouselCubit homeTabCarouselCubit = serviceLocator.get<HomeTabCarouselCubit>()..fetchCarouselMovies(limit: 5);
-  late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex],
-    genre2: genres[genreIndex+1],
-    genre3: genres[genreIndex+2],);
+  late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex], genre2: genres[genreIndex+1], genre3: genres[genreIndex+2],);
   late SearchCubit searchCubit = serviceLocator.get<SearchCubit>();
   late BrowseCubit browseCubit = serviceLocator.get<BrowseCubit>()..getMovies(limit: 30,);
-  late ProfileCubit profileCubit = ProfileCubit();
+  late ProfileCubit profileCubit = serviceLocator.get<ProfileCubit>()..getUser();
   late WatchListCubit watchListCubit = serviceLocator.get<WatchListCubit>();
   late HistoryCubit historyCubit = serviceLocator.get<HistoryCubit>();
   late List<Widget> tabs = [
@@ -70,6 +69,7 @@ class MainLayoutProvider extends ChangeNotifier {
     'Western',
     'Music',
   ];
+
 
 
   void changeGenre(int index) {

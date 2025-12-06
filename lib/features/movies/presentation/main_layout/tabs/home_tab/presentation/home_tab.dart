@@ -90,6 +90,9 @@ class _HomeTabState extends State<HomeTab> {
                 );
               } else if (state is HomeTabCarouselOnSuccess) {
                 final movies = state.movies;
+                print(movies[0].id );
+                print(movies[0].rating);
+                print(movies[0].mediumCoverImage );
                 return SizedBox(
                   height: 600.h,
                   child: Stack(

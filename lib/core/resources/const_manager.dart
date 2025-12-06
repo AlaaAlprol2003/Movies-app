@@ -17,3 +17,8 @@ abstract class MoviesApiConstant{
 abstract class AuthLocalConstant {
   static const String tokenKey = "token";
 }
+abstract class ProfileApiConstant {
+  static const String baseUrl ='https://route-movie-apis.vercel.app/';
+  static const String getProfileEndPoint ='profile';
+  static const String addToWatchListEndPoint ='favorites/add';
+}
