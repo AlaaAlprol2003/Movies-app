@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/entities/user_profile_entity.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/screens/edit_profile_screen.dart';
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/is_watch_list_cubit.dart';
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/movie_suggestions_cubit.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +27,7 @@ class RoutesManager {
   static const String forgetPassword = "forgetPassword";
   static const String mainLayout = "mainLayout";
   static const String movieDetails = "movieDetails";
-
+  static const String editProfileScreen = "editProfile";
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case login:
@@ -42,9 +45,7 @@ class RoutesManager {
           ),
         );
       case forgetPassword:
-        return MaterialPageRoute(
-          builder: (_) => ForgetPasswordScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
       case mainLayout:
         return MaterialPageRoute(
           builder: (_) => ChangeNotifierProvider(
@@ -59,24 +60,39 @@ class RoutesManager {
             providers: [
               BlocProvider<MovieDetailsCubit>(
                 create: (_) => MovieDetailsCubit(
-                  movieDetailsUseCase: serviceLocator.get<MovieDetailsUseCase>(),
+                  movieDetailsUseCase: serviceLocator
+                      .get<MovieDetailsUseCase>(),
                 )..fetchMovie(movieId: movieId),
               ),
               BlocProvider<MovieSuggestionsCubit>(
                 create: (_) => MovieSuggestionsCubit(
-                  movieSuggestionsUseCase: serviceLocator.get<MovieSuggestionsUseCase>(),
+                  movieSuggestionsUseCase: serviceLocator
+                      .get<MovieSuggestionsUseCase>(),
                 )..fetchMovies(movieId: movieId),
               ),
               BlocProvider<IsWatchListCubit>(
                 create: (_) => IsWatchListCubit(
-                  deleteWatchListUseCase: serviceLocator.get<DeleteWatchListUseCase>(),
-                  addWatchListUseCase: serviceLocator.get<AddWatchListUseCase>(),
-                  isAddToWatchListUseCase: serviceLocator.get<IsAddToWatchListUseCase>(),
+                  deleteWatchListUseCase: serviceLocator
+                      .get<DeleteWatchListUseCase>(),
+                  addWatchListUseCase: serviceLocator
+                      .get<AddWatchListUseCase>(),
+                  isAddToWatchListUseCase: serviceLocator
+                      .get<IsAddToWatchListUseCase>(),
                   movieId: movieId.toString(),
                 )..checkIfAdded(),
               ),
             ],
             child: MovieDetails(),
+          ),
+        );
+      case editProfileScreen:
+        final user = settings.arguments as UserProfileEntity;
+        return MaterialPageRoute(
+          builder: (_) => EditProfileScreen(
+            currentName: user.name,
+            currentPhone: user.phone,
+            currentAvatar: user.avaterId,
+            email:user.email,
           ),
         );
 

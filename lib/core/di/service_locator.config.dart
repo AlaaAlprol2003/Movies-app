@@ -154,6 +154,12 @@ extension GetItInjectableX on _i174.GetIt {
         dataSource: gh<_i463.MovieDetailsDataSource>(),
       ),
     );
+    gh.lazySingleton<_i142.ProfileCubit>(
+      () => _i142.ProfileCubit(
+        profileUseCase: gh<_i384.ProfileUseCase>(),
+        profileRepo: gh<_i173.ProfileRepo>(),
+      ),
+    );
     gh.lazySingleton<_i7.MovieDetailsUseCase>(
       () => _i7.MovieDetailsUseCase(gh<_i173.MovieDetailsRepo>()),
     );
@@ -195,9 +201,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i830.SearchCubit>(
       () => _i830.SearchCubit(searchUseCase: gh<_i584.SearchUseCase>()),
-    );
-    gh.lazySingleton<_i142.ProfileCubit>(
-      () => _i142.ProfileCubit(profileUseCase: gh<_i384.ProfileUseCase>()),
     );
     gh.lazySingleton<_i299.WatchListRepo>(
       () => _i307.WatchListRepoImpl(
@@ -248,8 +251,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i906.IsWatchListCubit>(
       () => _i906.IsWatchListCubit(
-        deleteWatchListUseCase: gh<_i401.DeleteWatchListUseCase>(),
         addWatchListUseCase: gh<_i882.AddWatchListUseCase>(),
+        deleteWatchListUseCase: gh<_i401.DeleteWatchListUseCase>(),
         isAddToWatchListUseCase: gh<_i451.IsAddToWatchListUseCase>(),
         movieId: gh<String>(),
       ),

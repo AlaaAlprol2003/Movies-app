@@ -42,6 +42,7 @@ class user {
     name: name,
     phone: phone,
     avaterId: avaterId,
+    email: email,
   );
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
 
 import 'config/theme_manager.dart';
 import 'core/resources/routes_manager.dart';
@@ -10,11 +11,17 @@ import 'core/resources/routes_manager.dart';
 void main() {
   configureDependencies();
   runApp(
-    BlocProvider(
-      create: (context) => serviceLocator.get<AuthCubit>(),
-      child: MoviesApp(),
-    ),
-  );
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+        create: (context) => serviceLocator.get<AuthCubit>(),),
+        BlocProvider(create: (context)=> serviceLocator.get<ProfileCubit>())
+      ],
+      
+        child: MoviesApp(),
+      ),
+    );
+  
 }
 
 class MoviesApp extends StatelessWidget {
