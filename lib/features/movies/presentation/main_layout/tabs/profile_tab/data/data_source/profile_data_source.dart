@@ -8,4 +8,5 @@ abstract class ProfileDataSource {
   Future<ProfileResponse> getProfile(String token);
   
   Future<EditProfileResponse> editProfile(String token,String email, int avatarId,String name,String phone);
+  Future<void> deleteProfile(String token);
 }

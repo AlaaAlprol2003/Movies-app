@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/models/avatar.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
+import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:movies_app/core/resources/ui_utils.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/custom_text_form_field.dart';
@@ -166,11 +167,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   if (_showAvatarPicker) _buildAvatarPicker(),
 
                   SizedBox(height: 300.h),
-                  CustomElevatedButton(
-                    text: "Delete Account",
-                    color: ColorsManager.red,
-                    textColor: ColorsManager.white,
-                    onPress: () {},
+                  BlocListener<ProfileCubit, ProfileState>(
+                    listener: (context, state) {
+                      if (state is DeleteProfileLoading) {
+                        UiUtils.hideLoadingDialog(context);
+                      } else if (state is DeleteProfileError) {
+                        UiUtils.hideLoadingDialog(context);
+                        UiUtils.showToastNotificationBar(
+                          context,
+                          state.message,
+                          ColorsManager.white,
+                          ColorsManager.red,
+                          Icons.error,
+                        );
+                      } else if (state is DeleteProfileSuccess) {
+                        
+                        UiUtils.hideLoadingDialog(context);
+                        UiUtils.showToastNotificationBar(
+                          context,
+                          "Profile Updated Successfully",
+                          ColorsManager.white,
+                          ColorsManager.green,
+                          Icons.check_circle,
+                        );
+                        if (!mounted) return; // ✅ تأكد من أن الـ widget موجودة
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          RoutesManager.login,
+                          (route) => false, // يمسح كل الـ previous routes
+                        );
+                      }
+                    },
+                    child: CustomElevatedButton(
+                      text: "Delete Account",
+                      color: ColorsManager.red,
+                      textColor: ColorsManager.white,
+                      onPress: () {
+                        BlocProvider.of<ProfileCubit>(context).deleteProfile();
+                      },
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   CustomElevatedButton(

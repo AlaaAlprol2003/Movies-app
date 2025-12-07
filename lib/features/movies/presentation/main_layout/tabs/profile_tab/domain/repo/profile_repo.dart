@@ -14,4 +14,5 @@ abstract class ProfileRepo {
 
     String phone,
   );
+  Future<Either<Failure,void>> deleteProfile();
 }

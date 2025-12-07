@@ -12,4 +12,7 @@ class ProfileUseCase {
   Future<Either<Failure, UserProfileEntity>> call() {
     return profileRepo.getProfile();
   }
+  Future<Either<Failure, void>> invoke() {
+    return profileRepo.deleteProfile();
+  }
 }

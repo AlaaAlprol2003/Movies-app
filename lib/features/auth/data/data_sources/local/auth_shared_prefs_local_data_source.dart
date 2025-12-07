@@ -15,4 +15,9 @@ class AuthSharedPrefsLocalDataSource implements AuthLocalDataSource {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(AuthLocalConstant.tokenKey, token);
   }
+  @override
+  Future<void> deleteToken() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove(AuthLocalConstant.tokenKey);
+}
 }

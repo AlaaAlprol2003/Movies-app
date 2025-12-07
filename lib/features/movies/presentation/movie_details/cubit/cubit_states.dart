@@ -53,4 +53,18 @@ class IsWatchListUpdated extends IsWatchListState {
   final bool isAdded;
   IsWatchListUpdated({required this.isAdded});
 }
+///==============================================
+abstract class AddHistoryState {}
 
+class AddHistoryInitial extends AddHistoryState {}
+
+class AddHistoryLoading extends AddHistoryState {}
+
+class AddHistoryError extends AddHistoryState {
+  final String message;
+  AddHistoryError({required this.message});
+}
+
+class AddHistorySuccess extends AddHistoryState {
+
+}

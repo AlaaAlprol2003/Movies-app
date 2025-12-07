@@ -38,8 +38,13 @@ class ProfileApiDataSource implements ProfileDataSource {
     try {
       Response response = await dio.patch(
         ProfileApiConstant.getProfileEndPoint,
-        data: {"email": email, "avaterId": avatarId,"name":name,"phone":phone},
-        
+        data: {
+          "email": email,
+          "avaterId": avatarId,
+          "name": name,
+          "phone": phone,
+        },
+
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
       return EditProfileResponse.fromJson(response.data);
@@ -49,6 +54,22 @@ class ProfileApiDataSource implements ProfileDataSource {
         message = ex.response?.data["message"];
       }
       throw RemoteException(message: message ?? "Failed to edit profile");
+    }
+  }
+
+  @override
+  Future<void> deleteProfile(String token) async {
+    try {
+      await dio.delete(
+        ProfileApiConstant.getProfileEndPoint,
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+    } catch (exception) {
+      String? message;
+      if (exception is DioException) {
+        message = exception.response?.data["message"];
+      }
+      throw RemoteException(message: message ?? "Failed to login");
     }
   }
 }

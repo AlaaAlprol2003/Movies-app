@@ -53,4 +53,19 @@ class ProfileRepoImpl implements ProfileRepo {
       return Left(Failure(message: ex.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteProfile() async {
+    try {
+      AuthSharedPrefsLocalDataSource authLocalDataSource =
+          AuthSharedPrefsLocalDataSource();
+      String token = await authLocalDataSource.getToken();
+      print(token);
+
+      await profileDataSource.deleteProfile(token);
+      return Right(null);
+    } on AppExceptions catch (exception) {
+      return Left(Failure(message: exception.message));
+    }
+  }
 }

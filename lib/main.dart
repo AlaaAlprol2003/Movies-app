@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
-
 import 'config/theme_manager.dart';
 import 'core/resources/routes_manager.dart';
+import 'features/movies/presentation/main_layout/tabs/profile_tab/data/models/movie_hive.dart';
 
-void main() {
+void main() async{
   configureDependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(MovieHiveAdapter());
+
+  await Hive.openBox<MovieHive>('historyBox');
+
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-        create: (context) => serviceLocator.get<AuthCubit>(),),
-        BlocProvider(create: (context)=> serviceLocator.get<ProfileCubit>())
+        BlocProvider(create: (context) => serviceLocator.get<AuthCubit>()),
+        BlocProvider(create: (context) => serviceLocator.get<ProfileCubit>()),
       ],
-      
-        child: MoviesApp(),
-      ),
-    );
-  
+
+      child: MoviesApp(),
+    ),
+  );
 }
 
 class MoviesApp extends StatelessWidget {
   const MoviesApp({super.key});
-
   @override
   Widget build(BuildContext context) {
+   
+
+
     return ScreenUtilInit(
       designSize: const Size(430, 932),
       minTextAdapt: true,
