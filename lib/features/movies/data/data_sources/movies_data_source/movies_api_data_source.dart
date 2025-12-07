@@ -48,4 +48,5 @@ class MoviesApiDataSource implements MoviesDataSource {
       return Left(Failure(message: "Unexpected error occurred. Please try again."));
     }
   }
+
 }

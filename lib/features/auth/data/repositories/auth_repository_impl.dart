@@ -32,6 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, String>> login(LoginRequest request) async {
     try {
       final response = await authRemoteDataSource.login(request);
+      await authLocalDataSource.saveToken(response.data);
       return Right(response.data);
     } on AppExceptions catch (exception) {
       return left(Failure(message: exception.message));

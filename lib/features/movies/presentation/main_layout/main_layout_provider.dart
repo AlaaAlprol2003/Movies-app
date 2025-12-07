@@ -6,7 +6,10 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/cubits/home_tab_carousel_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/cubits/home_tab_category_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/home_tab.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/profile_tab.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/history_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/watchlist_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/screens/profile_tab.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/search_tab.dart';
 
@@ -15,6 +18,9 @@ class MainLayoutProvider extends ChangeNotifier {
   late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex],
     genre2: genres[genreIndex+1],
     genre3: genres[genreIndex+2],);
+  late ProfileCubit profileCubit = serviceLocator.get<ProfileCubit>()..getUser();
+  late WatchListCubit watchListCubit = serviceLocator.get<WatchListCubit>();
+  late HistoryCubit historyCubit = serviceLocator.get<HistoryCubit>();
   late SearchCubit searchCubit = serviceLocator.get<SearchCubit>();
   late BrowseCubit browseCubit = serviceLocator.get<BrowseCubit>()..getMovies(limit: 30,);
   late List<Widget> tabs = [
@@ -68,16 +74,8 @@ class MainLayoutProvider extends ChangeNotifier {
       }
       notifyListeners();}
   }
-  void onSeeMore(int index){
-    if(selectedTab == 2){
-      browseGenreIndex=0;
-      browseCubit.getMovies(limit: 30, genres:genres[0]);
-      notifyListeners();
-    }
-  }
 
   void changeTab(int index) {
-    onSeeMore(index);
     changeGenre(index);
     selectedTab = index;
     notifyListeners();
