@@ -16,20 +16,20 @@ class WatchListMovie {
       imageURL: json['imageURL'],
       year: json['year'],
     );
-
   }
-
  final String movieId;
  final String name;
  final double rating;
  final String imageURL;
  final String year;
 
-MovieSummaryEntity toMovieSummaryEntity(){
-  return MovieSummaryEntity(
-    id: int.parse(movieId),
-    rating: rating,
-    mediumCoverImage: imageURL,
-  );
-}
+ MovieSummaryEntity toMovieSummaryEntity(){
+   return MovieSummaryEntity(
+     id: int.parse(movieId),
+     rating: rating,
+     mediumCoverImage: imageURL,
+
+   );
+ }
+
 }

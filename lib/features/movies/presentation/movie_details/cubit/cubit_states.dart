@@ -36,3 +36,21 @@ class MovieSuggestionsOnSuccess extends MovieSuggestionsState {
 
   MovieSuggestionsOnSuccess(this.movies);
 }
+
+///=====================================================================
+abstract class IsWatchListState {}
+
+class IsWatchListInitial extends IsWatchListState {}
+
+class IsWatchListLoading extends IsWatchListState {}
+
+class IsWatchListError extends IsWatchListState {
+  final String message;
+  IsWatchListError({required this.message});
+}
+
+class IsWatchListUpdated extends IsWatchListState {
+  final bool isAdded;
+  IsWatchListUpdated({required this.isAdded});
+}
+

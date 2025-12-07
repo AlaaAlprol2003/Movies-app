@@ -16,12 +16,14 @@ import '../../../../core/resources/ui_utils.dart';
 import 'cubit/cubit_states.dart';
 import 'cubit/movie_details_cubit.dart';
 import 'cubit/movie_suggestions_cubit.dart';
+import 'cubit/is_watch_list_cubit.dart';
 
 class MovieDetails extends StatelessWidget {
   const MovieDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    MovieDetailsCubit movieDetailsCubit = context.read<MovieDetailsCubit>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -37,14 +39,40 @@ class MovieDetails extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.bookmark_border_outlined,
-              color: ColorsManager.white,
-              size: 32.sp,
-            ),
-          ),
+
+          BlocBuilder<IsWatchListCubit, IsWatchListState>(
+            builder: (context, state) {
+              final cubit = context.watch<IsWatchListCubit>();
+              if (state is IsWatchListLoading) {
+                return SizedBox();
+              }
+
+              if (state is IsWatchListError) {
+                return Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 32,
+                );
+              }
+
+              final isAdded = state is IsWatchListUpdated ? state.isAdded : cubit.isAdded;
+
+              return IconButton(
+                icon: Icon(
+                  isAdded ? Icons.bookmark : Icons.bookmark_border,
+                  color: Colors.white,
+                  size: 32,
+                ),
+                onPressed: () {
+                  cubit.toggle(
+                    request: movieDetailsCubit.movie.toWatchListRequest(),
+                  );
+                },
+              );
+            },
+          )
+
+
         ],
       ),
       body: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(

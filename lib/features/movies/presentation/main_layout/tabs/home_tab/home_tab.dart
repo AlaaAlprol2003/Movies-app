@@ -136,9 +136,7 @@ class _HomeTabState extends State<HomeTab> {
                           items: movies
                               .map(
                                 (movie) => MovieItem(
-                                pic: movie.mediumCoverImage,
-                                rate: movie.rating,
-                                movieId: movie.id,
+                                  movie: movie,
                               ),
                           )
                               .toList(),

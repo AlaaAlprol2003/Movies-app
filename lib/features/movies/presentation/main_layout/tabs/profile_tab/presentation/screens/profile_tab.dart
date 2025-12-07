@@ -4,10 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
-import 'package:provider/provider.dart';
 import '../../../../../../../../core/models/avatar.dart';
-import '../../../../main_layout_provider.dart';
-import '../cubit/history_cubit.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/watchlist_cubit.dart';
 import 'edit_profile_screen.dart';
@@ -15,7 +12,8 @@ import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/movie_item.dart';
 
 class ProfileTab extends StatefulWidget {
-  const ProfileTab({Key? key}) : super(key: key);
+  const ProfileTab({super.key});
+
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();
@@ -35,7 +33,6 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MainLayoutProvider>(context);
 
          return Scaffold(
             backgroundColor: ColorsManager.black,
@@ -140,7 +137,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                                 ),
                               ),
                               SizedBox(height: 20.h),
-                              // 2 elevated
+
                               Row(
                                 children: [
                                   Expanded(
@@ -150,7 +147,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                                       child: CustomElevatedButton(
                                         text: "Edit Profile",
                                         onPress: () async {
-                                          final result = await Navigator.push(
+                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
@@ -163,13 +160,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                                                   ),
                                             ),
                                           );
-                                          // if (result != null && result is Map<String, dynamic>) {
-                                          //  context.read<ProfileCubit>().updateProfile(
-                                          //   name: result['name'],
-                                          //  phone: result['phone'],
-                                          //  avatar: result['avatar'],
-                                          // );
-                                          // }
+
                                         },
                                       ),
                                     ),
@@ -228,7 +219,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: ColorsManager.grey.withOpacity(0.2),
+                          color: ColorsManager.grey.withValues(alpha: .2),
                           width: 1,
                         ),
                       ),
@@ -286,9 +277,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                                 itemCount: movies.length,
                                 itemBuilder: (context, index) {
                                   return MovieItem(
-                                    pic: movies[index].mediumCoverImage,
-                                    rate: movies[index].rating,
-                                    movieId: movies[index].id,
+                                    movie: movies[index],
                                   );
                                 },
                               );
@@ -320,9 +309,7 @@ class _ProfileTabState extends State<ProfileTab> with SingleTickerProviderStateM
                                 itemCount: movies.length,
                                 itemBuilder: (context, index) {
                                   return MovieItem(
-                                    pic: movies[index].mediumCoverImage,
-                                    rate: movies[index].rating,
-                                    movieId: movies[index].id,
+                                   movie: movies[index],
                                   );
                                 },
                               );

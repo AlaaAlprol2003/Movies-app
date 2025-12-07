@@ -80,9 +80,7 @@ class _SearchTabState extends State<SearchTab> {
                       itemBuilder: (context, index) {
                         List<MovieSummaryEntity> movies = state.movies;
                         return MovieItem(
-                          pic: movies[index].mediumCoverImage,
-                          rate: movies[index].rating,
-                          movieId: movies[index].id,
+                         movie: movies[index],
                         );
                       },
                     ),

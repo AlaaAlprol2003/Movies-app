@@ -22,7 +22,8 @@ class SimilarDisplay extends StatelessWidget {
         childAspectRatio: 7/10,
       ),
       itemBuilder: (context, index) {
-        return MovieItem(pic: movies![index].mediumCoverImage, rate: movies![index].rating,movieId: movies![index].id,
+        return MovieItem(
+        movie: movies![index],
         height: 265.h,
         width: double.infinity,);
       },

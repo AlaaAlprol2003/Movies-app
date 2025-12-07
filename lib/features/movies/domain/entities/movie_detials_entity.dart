@@ -1,4 +1,5 @@
 import '../../data/models/movie_details/Cast.dart';
+import '../../presentation/main_layout/tabs/profile_tab/data/models/watch_list_request.dart';
 
 class MovieDetailsEntity{
   MovieDetailsEntity({
@@ -31,4 +32,14 @@ class MovieDetailsEntity{
   final String mediumScreenshotImage2;
   final String mediumScreenshotImage3;
   final List<Cast>? cast;
+
+  WatchListRequest toWatchListRequest(){
+    return WatchListRequest(
+      movieId: id.toString(),
+      name: title,
+      rating: rating,
+      imageURL: mediumCoverImage,
+      year: year.toString(),
+    );
+  }
 }

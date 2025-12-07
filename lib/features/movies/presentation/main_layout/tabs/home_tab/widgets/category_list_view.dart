@@ -71,9 +71,7 @@ class CategoryListView extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: movies.length,
               itemBuilder: (context, index) => MovieItem(
-                pic: movies[index].mediumCoverImage,
-                rate: movies[index].rating,
-                movieId: movies[index].id,
+                movie: movies[index],
                 width: 140.w,
                 height: 200.h,
               ),

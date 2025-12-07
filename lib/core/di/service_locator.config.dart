@@ -87,8 +87,14 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile
     as _i173;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/repo/watch_list_repo.dart'
     as _i299;
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/add_watch_list_use_case.dart'
+    as _i882;
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/delete_movie_from__watch_list_use_case.dart'
+    as _i401;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/get_watch_list_movies_use_case.dart'
     as _i68;
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/is_add_to_watch_list_use_case.dart'
+    as _i451;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/profile_use_case.dart'
     as _i384;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/history_cubit.dart'
@@ -99,6 +105,8 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile
     as _i636;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart'
     as _i830;
+import 'package:movies_app/features/movies/presentation/movie_details/cubit/is_watch_list_cubit.dart'
+    as _i906;
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/movie_details_cubit.dart'
     as _i590;
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/movie_suggestions_cubit.dart'
@@ -220,9 +228,30 @@ extension GetItInjectableX on _i174.GetIt {
         movieSuggestionsUseCase: gh<_i0.MovieSuggestionsUseCase>(),
       ),
     );
+    gh.lazySingleton<_i882.AddWatchListUseCase>(
+      () => _i882.AddWatchListUseCase(watchListRepo: gh<_i299.WatchListRepo>()),
+    );
+    gh.lazySingleton<_i401.DeleteWatchListUseCase>(
+      () => _i401.DeleteWatchListUseCase(
+        watchListRepo: gh<_i299.WatchListRepo>(),
+      ),
+    );
     gh.lazySingleton<_i68.GetWatchListMoviesUseCase>(
       () => _i68.GetWatchListMoviesUseCase(
         watchListRepo: gh<_i299.WatchListRepo>(),
+      ),
+    );
+    gh.lazySingleton<_i451.IsAddToWatchListUseCase>(
+      () => _i451.IsAddToWatchListUseCase(
+        watchListRepo: gh<_i299.WatchListRepo>(),
+      ),
+    );
+    gh.lazySingleton<_i906.IsWatchListCubit>(
+      () => _i906.IsWatchListCubit(
+        deleteWatchListUseCase: gh<_i401.DeleteWatchListUseCase>(),
+        addWatchListUseCase: gh<_i882.AddWatchListUseCase>(),
+        isAddToWatchListUseCase: gh<_i451.IsAddToWatchListUseCase>(),
+        movieId: gh<String>(),
       ),
     );
     gh.lazySingleton<_i636.WatchListCubit>(

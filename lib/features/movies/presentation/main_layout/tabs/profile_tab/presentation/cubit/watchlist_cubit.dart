@@ -35,6 +35,6 @@ class WatchListError extends WatchListState {
 }
 
 class WatchListSuccess extends WatchListState {
-  final List<MovieSummaryEntity> movies;
+  List<MovieSummaryEntity> movies;
   WatchListSuccess({required this.movies});
 }

@@ -3,14 +3,13 @@ import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/repo/watch_list_repo.dart';
 
 import '../../../../../../../../core/errors/errors/failure.dart';
-import '../../data/models/watch_list_request.dart';
 
 @lazySingleton
-class AddWatchListUseCase{
+class IsAddToWatchListUseCase {
   WatchListRepo watchListRepo;
-  AddWatchListUseCase({required this.watchListRepo});
+  IsAddToWatchListUseCase({required this.watchListRepo});
 
-  Future<Either<Failure, void>> call({required WatchListRequest request,}) async {
-    return await watchListRepo.addMovieToWatchList(request: request);
+  Future<Either<Failure, bool>> call({required String movieId}) async {
+    return await watchListRepo.isAddedToWatchList(movieId: movieId);
   }
 }

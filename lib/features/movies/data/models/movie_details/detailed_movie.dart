@@ -1,5 +1,4 @@
 import 'package:movies_app/features/movies/data/models/movie_details/Cast.dart';
-
 import '../../../domain/entities/movie_detials_entity.dart';
 
 class DetailedMovie {
@@ -82,4 +81,5 @@ class DetailedMovie {
       cast: cast,
     );
   }
+
 }

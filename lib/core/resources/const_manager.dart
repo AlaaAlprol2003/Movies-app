@@ -21,5 +21,7 @@ abstract class ProfileApiConstant {
   static const String baseUrl ='https://route-movie-apis.vercel.app/';
   static const String getProfileEndPoint ='profile';
   static const String addToWatchListEndPoint ='favorites/add';
+  static const String deleteFromWatchListEndPoint ='favorites/remove/';
+  static const String isAddedToWatchListEndPoint ='favorites/is-favorite/';
   static const String getWatchListMoviesEndPoint ='favorites/all';
 }
