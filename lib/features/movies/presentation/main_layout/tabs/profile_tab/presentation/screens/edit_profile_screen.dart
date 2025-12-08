@@ -7,7 +7,10 @@ import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:movies_app/core/resources/ui_utils.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/custom_text_form_field.dart';
+import '../../../../../../../auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart';
 import '../cubit/profile_cubit.dart';
+import '../widgets/avatar_picker.dart';
+import '../widgets/custom_alert_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String currentName;
@@ -42,12 +45,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _selectedAvatar = widget.currentAvatar;
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   CustomTextFormField(
                     hintText: 'Name',
-                    controller: _nameController,
+                    controller:_nameController,
                     preIcon: Icon(Icons.person, color: Colors.white),
                   ),
 
@@ -177,7 +175,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   SizedBox(height: 20.h),
 
-                  if (_showAvatarPicker) _buildAvatarPicker(),
+                  if (_showAvatarPicker) AvatarPicker(
+                    selectedAvatar: _selectedAvatar,
+                    onAvatarSelected: (index) {
+                      setState(() => _selectedAvatar = index);
+                    }
+                  ),
 
                   SizedBox(height: 300.h),
                   BlocListener<ProfileCubit, ProfileState>(
@@ -194,7 +197,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           Icons.error,
                         );
                       } else if (state is DeleteProfileSuccess) {
-                        
                         UiUtils.hideLoadingDialog(context);
                         UiUtils.showToastNotificationBar(
                           context,
@@ -203,11 +205,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ColorsManager.green,
                           Icons.check_circle,
                         );
-                        if (!mounted) return; // ✅ تأكد من أن الـ widget موجودة
+                        if (!mounted) return;
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           RoutesManager.login,
-                          (route) => false, // يمسح كل الـ previous routes
+                          (route) => false,
                         );
                       }
                     },
@@ -216,7 +218,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: ColorsManager.red,
                       textColor: ColorsManager.white,
                       onPress: () {
-                        BlocProvider.of<ProfileCubit>(context).deleteProfile();
+                        CustomAlertDialog.show(context,(){onDelete(
+                          context.read<ProfileCubit>(),context,
+                        );} ,'Are you sure you want to delete your account?');
+
                       },
                     ),
                   ),
@@ -224,14 +229,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   CustomElevatedButton(
                     text: "Update Data",
                     onPress: () {
-                      final cubit = context.read<ProfileCubit>();
-
-                      cubit.editProfile(
-                        widget.email,
-                        _selectedAvatar,
-                        _nameController.text,
-                        _phoneController.text,
-                      );
+                       onUpdate(context);
                     },
                   ),
                 ],
@@ -243,53 +241,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget _buildAvatarPicker() {
-    return Container(
-      padding: REdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: ColorsManager.black,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 12.w,
-          mainAxisSpacing: 12.h,
-        ),
-        itemCount: Avatar.avatars.length,
-        itemBuilder: (context, index) {
-          final isSelected = index == _selectedAvatar;
 
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedAvatar = index;
-                _showAvatarPicker = false;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? ColorsManager.yellow : Colors.transparent,
-                  width: 3.w,
-                ),
-              ),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: ClipOval(
-                  child: Image.asset(
-                    Avatar.avatars[index].bath,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+
+  void onDelete(ProfileCubit profileCubit,BuildContext context)async{
+   profileCubit.deleteProfile();
+   AuthSharedPrefsLocalDataSource authDataSource = AuthSharedPrefsLocalDataSource();
+   await authDataSource.deleteToken();
+   Navigator.pushNamedAndRemoveUntil(context, RoutesManager.login, (route) => false);
+  }
+  void onUpdate(BuildContext context,)async{
+    context.read<ProfileCubit>().editProfile(
+      widget.email,
+      _selectedAvatar,
+      _nameController.text,
+      _phoneController.text,
     );
   }
 }

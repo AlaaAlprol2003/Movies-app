@@ -5,6 +5,8 @@ import 'package:movies_app/features/auth/data/models/register_request.dart';
 import 'package:movies_app/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:movies_app/features/auth/domain/use_cases/register_use_case.dart';
 
+import 'auth_cubit_states.dart';
+
 @singleton
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.registerUseCase, required this.loginUseCase})
@@ -35,25 +37,3 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 }
-
-class AuthState {}
-
-class AuthInitialState extends AuthState {}
-
-class RegisterLoading extends AuthState {}
-
-class RegisterError extends AuthState {
-  String message;
-  RegisterError({required this.message});
-}
-
-class RegisterSuccess extends AuthState {}
-
-class LoginLoading extends AuthState {}
-
-class LoginError extends AuthState {
-  String message;
-  LoginError({required this.message});
-}
-
-class LoginSuccess extends AuthState {}

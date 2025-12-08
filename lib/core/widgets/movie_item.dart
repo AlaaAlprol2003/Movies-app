@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.dart';
-import 'package:safe_network_image/safe_network_image.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/watchlist_cubit.dart';
+
+import '../../features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/get_history_cubit.dart';
+import 'custom_network_image.dart';
 
 class MovieItem extends StatelessWidget {
   const MovieItem({super.key,required this.movie ,this.width,this.height});
@@ -16,17 +20,17 @@ class MovieItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap:(){
-        Navigator.pushNamed(context,RoutesManager.movieDetails,arguments: movie.id,);
+        Navigator.pushNamed(context,RoutesManager.movieDetails,arguments: movie.id,).then((value) => value == true ? {context.read<WatchListCubit>().getWatchList(),
+          context.read<GetHistoryCubit>().getHistory() } : null);
       },
       child: Stack(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: SafeNetworkImage(
+            child: CustomNetworkImage(
               url: movie.mediumCoverImage,
-              fit: BoxFit.fill,
-              width: width ?? double.infinity,
-              height:height ?? double.infinity,
+              width: width,
+              height: height,
             )
           ),
           Positioned(

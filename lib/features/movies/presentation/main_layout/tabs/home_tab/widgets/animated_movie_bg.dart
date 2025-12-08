@@ -24,10 +24,20 @@ class AnimatedMovieBg extends StatelessWidget {
             height: double.infinity,
             loadingBuilder: (context, child, progress) {
               if (progress == null) return child;
+              return SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Center(
+                  child: CircularProgressIndicator()
+                )
+              );
+            },
+            errorBuilder: (context, error, stackTrace) {
               return Container(
-                color: Colors.black,
-                child: const Center(child: CircularProgressIndicator(
-                )),
+                width: double.infinity,
+                height:  double.infinity,
+                color: ColorsManager.grey,
+                child: Icon(Icons.error, color: Colors.white, size: 40.sp),
               );
             },
           ),

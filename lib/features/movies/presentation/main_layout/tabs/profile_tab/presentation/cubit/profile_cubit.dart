@@ -17,7 +17,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileUseCase profileUseCase;
   DeleteProfileUseCase deleteProfileUseCase;
 
-  void getUser() async {
+
+  Future<void> getUser() async {
     emit(ProfileLoading());
     try {
       final response = await profileUseCase();
@@ -30,7 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void editProfile(
+ Future<void> editProfile(
     String email,
     int avatarId,
     String name,
@@ -49,6 +50,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           emit(EditProfileError(message: failure.message));
         },
         (response) {
+
           emit(EditProfileSuccess(response: response));
         },
       );
@@ -57,7 +59,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void deleteProfile() async {
+  Future<void> deleteProfile() async {
     emit(DeleteProfileLoading());
     try {
       final response = await deleteProfileUseCase();

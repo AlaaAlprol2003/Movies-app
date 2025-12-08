@@ -15,6 +15,8 @@ import 'package:movies_app/features/auth/presentation/provider/auth_provider.dar
 import 'package:movies_app/features/auth/presentation/widgets/custom_animated_toogle.dart';
 import 'package:provider/provider.dart';
 
+import '../cubit/auth_cubit_states.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -72,7 +74,6 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 35.h),
                     BlocListener<AuthCubit,AuthState>(
-                      listenWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
                       listener: (context,state){
                         if(state is LoginLoading){
                           UiUtils.showLoadingDialog(context);

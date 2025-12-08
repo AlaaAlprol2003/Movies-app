@@ -18,6 +18,7 @@ import 'package:movies_app/features/auth/presentation/widgets/custom_animated_to
 import 'package:provider/provider.dart';
 
 import '../../../../core/models/avatar.dart';
+import '../cubit/auth_cubit_states.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});

@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
-import 'package:movies_app/core/widgets/movie_item.dart';
 import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart';
 import 'package:provider/provider.dart';
+import '../../../../../../core/widgets/custom_grid_view.dart';
 import '../../main_layout_provider.dart';
 
 class SearchTab extends StatefulWidget {
@@ -68,22 +68,12 @@ class _SearchTabState extends State<SearchTab> {
                   if(state.movies.isEmpty){
                     return Expanded(child:Center(child: Text("No Movies Found",style: TextStyle(color: ColorsManager.yellow))) ,);
                   }
+                  List<MovieSummaryEntity> movies = state.movies;
                   return Expanded(
-                    child: GridView.builder(
-                      itemCount: state.movies.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8.h,
-                        crossAxisSpacing: 12.w,
-                        childAspectRatio: 7 / 10,
-                      ),
-                      itemBuilder: (context, index) {
-                        List<MovieSummaryEntity> movies = state.movies;
-                        return MovieItem(
-                         movie: movies[index],
-                        );
-                      },
-                    ),
+                    child: CustomGridView(
+                      movies: movies,
+                      crossAxisCount: 2,
+                    )
                   );
                 }
                 return SizedBox();

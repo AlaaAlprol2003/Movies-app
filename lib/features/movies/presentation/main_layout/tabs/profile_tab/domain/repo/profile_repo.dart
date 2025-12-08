@@ -11,7 +11,6 @@ abstract class ProfileRepo {
     String email,
     int avatarId,
     String name,
-
     String phone,
   );
   Future<Either<Failure,void>> deleteProfile();

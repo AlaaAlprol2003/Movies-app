@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +7,7 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/entities/user_profile_entity.dart';
 import '../../../../../../../../core/errors/errors/app_exceptions.dart';
 import '../../domain/repo/profile_repo.dart';
-import '../data_source/profile_data_source.dart';
+import '../data_source/remote_data_source/profile_data_source.dart';
 
 @LazySingleton(as: ProfileRepo)
 class ProfileRepoImpl implements ProfileRepo {

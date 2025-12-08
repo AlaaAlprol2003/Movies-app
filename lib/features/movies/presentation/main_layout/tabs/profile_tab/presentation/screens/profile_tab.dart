@@ -6,11 +6,13 @@ import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:movies_app/features/auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart';
 import '../../../../../../../../core/models/avatar.dart';
+import '../../../../../../../../core/widgets/custom_grid_view.dart';
 import '../cubit/get_history_cubit.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/watchlist_cubit.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
-import 'package:movies_app/core/widgets/movie_item.dart';
+import '../widgets/build_empty_state.dart';
+import '../widgets/custom_alert_dialog.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -22,16 +24,12 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  late AuthSharedPrefsLocalDataSource authSharedPrefsLocalDataSource;
 
   @override
   void initState() {
     super.initState();
-    authSharedPrefsLocalDataSource = AuthSharedPrefsLocalDataSource();
     tabController = TabController(length: 2, vsync: this);
     context.read<WatchListCubit>().getWatchList();
-    context.read<GetHistoryCubit>().getHistory();
-
   }
 
   @override
@@ -60,14 +58,11 @@ class _ProfileTabState extends State<ProfileTab>
                       children: [
                         Row(
                           children: [
-                            CircleAvatar(
-                              radius: 40.r,
-                              child: ClipOval(
-                                child: Image.asset(
+                            Image.asset(
                                   Avatar.avatars[user.avaterId].bath,
-                                  width: 100.w,
-                                  height: 100.h,
-                                  fit: BoxFit.cover,
+                                  width: 120.w,
+                                  height: 120.h,
+                                  fit: BoxFit.fill,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Icon(
                                       Icons.person,
@@ -76,8 +71,7 @@ class _ProfileTabState extends State<ProfileTab>
                                     );
                                   },
                                 ),
-                              ),
-                            ),
+
                             SizedBox(width: 20.w),
                             Expanded(
                               child: Row(
@@ -86,13 +80,34 @@ class _ProfileTabState extends State<ProfileTab>
                                 children: [
                                   Column(
                                     children: [
-                                      Text(
-                                        "12",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 24.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      BlocBuilder<WatchListCubit, WatchListState>(
+                                        builder: (context, state) {
+                                          if (state is WatchListLoading){
+                                            return SizedBox(
+                                              height:34.h,
+                                              width: 34.w,
+                                              child: CircularProgressIndicator()
+                                            );
+                                          }
+                                         else if (state is WatchListError) {
+                                            return Icon(
+                                              Icons.error,
+                                              color: Colors.red,
+                                              size: 32);
+                                          }else if (state is WatchListSuccess) {
+                                            final int moviesCounter = state.movies.length;
+                                            return Text(
+                                              "$moviesCounter",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 24.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          }else{
+                                            return SizedBox();
+                                          }
+                                        }
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
@@ -106,13 +121,34 @@ class _ProfileTabState extends State<ProfileTab>
                                   ),
                                   Column(
                                     children: [
-                                      Text(
-                                        "10",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 24.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      BlocBuilder<GetHistoryCubit, GetHistoryState>(
+                                          builder: (context, state) {
+                                            if (state is GetHistoryLoading){
+                                              return SizedBox(
+                                                  height:34.h,
+                                                  width: 34.w,
+                                                  child: CircularProgressIndicator()
+                                              );
+                                            }
+                                            else if (state is GetHistoryError) {
+                                              return Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                  size: 32);
+                                            }else if (state is GetHistorySuccess) {
+                                              final int moviesCounter = state.movies.length;
+                                              return Text(
+                                                "$moviesCounter",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            }else{
+                                              return SizedBox();
+                                            }
+                                          }
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
@@ -136,7 +172,7 @@ class _ProfileTabState extends State<ProfileTab>
                             user.name,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -165,7 +201,8 @@ class _ProfileTabState extends State<ProfileTab>
                               flex: 2,
                               child: ElevatedButton(
                                 onPressed: ()  {
-                                  _showLogoutDialog(context,authSharedPrefsLocalDataSource);
+                                  CustomAlertDialog.show(context,onLogout,'Are you sure you want to logout?');
+
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: ColorsManager.red,
@@ -179,7 +216,7 @@ class _ProfileTabState extends State<ProfileTab>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Exit',
+                                      'Logout',
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w600,
@@ -201,43 +238,31 @@ class _ProfileTabState extends State<ProfileTab>
                 },
               ),
             ),
-            // Tab Bar
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: ColorsManager.grey.withValues(alpha: .2),
-                    width: 1,
-                  ),
-                ),
+
+            TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              controller: tabController,
+              indicatorColor: ColorsManager.yellow,
+              labelColor: ColorsManager.yellow,
+              unselectedLabelColor: ColorsManager.grey,
+              labelStyle: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
               ),
-              child: TabBar(
-                controller: tabController,
-                indicatorColor: ColorsManager.yellow,
-                indicatorWeight: 3,
-                labelColor: ColorsManager.yellow,
-                unselectedLabelColor: ColorsManager.grey,
-                labelStyle: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+              tabs: [
+                Tab(
+                  icon: Icon(Icons.list_alt, size: 24.sp),
+                  text: 'Watch List',
                 ),
-                tabs: [
-                  Tab(
-                    icon: Icon(Icons.list_alt, size: 24.sp),
-                    text: 'Watch List',
-                  ),
-                  Tab(
-                    icon: Icon(Icons.folder, size: 24.sp),
-                    text: 'History',
-                  ),
-                ],
-              ),
+                Tab(
+                  icon: Icon(Icons.folder, size: 24.sp),
+                  text: 'History',
+                ),
+              ],
             ),
-            //Tab Bar view
             Expanded(
               child: TabBarView(
                 controller: tabController,
-
                 children: [
                   BlocBuilder<WatchListCubit, WatchListState>(
                     builder: (context, state) {
@@ -257,24 +282,14 @@ class _ProfileTabState extends State<ProfileTab>
                       } else if (state is WatchListSuccess) {
                         final movies = state.movies;
                         if (movies.isEmpty) {
-                          return _buildEmptyState(
-                            ImagesAssets.empity,
-                            'Your watchlist is empty',
+                          return BuildEmptyState(
+                            imagePath: ImagesAssets.empity,
+                            message: 'Your watchlist is empty',
                           );
                         }
-                        return GridView.builder(
-                          padding: REdgeInsets.all(16),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10.w,
-                                mainAxisSpacing: 10.h,
-                                childAspectRatio: 0.7,
-                              ),
-                          itemCount: movies.length,
-                          itemBuilder: (context, index) {
-                            return MovieItem(movie: movies[index]);
-                          },
+                        return CustomGridView(
+                          movies: movies,
+                          crossAxisCount: 3,
                         );
                       } else {
                         return SizedBox();
@@ -299,24 +314,14 @@ class _ProfileTabState extends State<ProfileTab>
                       } else if (state is GetHistorySuccess) {
                         final movies = state.movies;
                         if (movies.isEmpty) {
-                          return _buildEmptyState(
-                            ImagesAssets.empity,
-                            'Your History is empty',
+                          return BuildEmptyState(
+                            imagePath: ImagesAssets.empity,
+                            message: 'Your History is empty',
                           );
                         }
-                        return GridView.builder(
-                          padding: REdgeInsets.all(16),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10.w,
-                                mainAxisSpacing: 10.h,
-                                childAspectRatio: 0.7,
-                              ),
-                          itemCount: movies.length,
-                          itemBuilder: (context, index) {
-                            return MovieItem(movie: movies[index]);
-                          },
+                        return CustomGridView(
+                          movies: movies,
+                          crossAxisCount: 3,
                         );
                       } else {
                         return SizedBox();
@@ -331,86 +336,14 @@ class _ProfileTabState extends State<ProfileTab>
       ),
     );
   }
+ void onLogout() async {
+    AuthSharedPrefsLocalDataSource authDataSource = AuthSharedPrefsLocalDataSource();
+   await authDataSource.deleteToken();
+   Navigator.pushNamedAndRemoveUntil(
+     context,
+     RoutesManager.login,
+         (route) => false,
+   );
+ }
 
-  Widget _buildEmptyState(String imagePath, String message) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            imagePath,
-            width: 150.w,
-            height: 150.h,
-            errorBuilder: (context, error, stackTrace) {
-              return Icon(
-                Icons.movie_outlined,
-                size: 100.sp,
-                color: ColorsManager.yellow,
-              );
-            },
-          ),
-          SizedBox(height: 20.h),
-          Text(
-            message,
-            style: TextStyle(color: ColorsManager.grey, fontSize: 16.sp),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showLogoutDialog(BuildContext context,AuthSharedPrefsLocalDataSource authSharedPrefsLocalDataSource) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: ColorsManager.grey,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          title: Text(
-            'Logout',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            'Are you sure you want to logout?',
-            style: TextStyle(color: Colors.grey, fontSize: 16.sp),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-
-              },
-              child: Text(
-                'Cancel',
-                style: TextStyle(color: Colors.grey, fontSize: 16.sp),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                authSharedPrefsLocalDataSource.deleteToken();
-                Navigator.pushNamed(context, RoutesManager.login);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorsManager.red,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: Text(
-                'Logout',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }

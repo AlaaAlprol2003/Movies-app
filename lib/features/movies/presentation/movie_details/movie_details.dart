@@ -31,7 +31,7 @@ class MovieDetails extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           },
           icon: Icon(
             Icons.arrow_back_ios,
