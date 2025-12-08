@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/models/avatar.dart';
-import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:movies_app/core/resources/ui_utils.dart';
@@ -221,38 +220,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       );
                     },
                   ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   height: 48.h,
-                  //   child:
-
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     final cubit = context.read<ProfileCubit>();
-
-                  //     cubit.editProfile(
-                  //       widget.email,
-                  //       _selectedAvatar,
-                  //       _nameController.text,
-                  //       _phoneController.text,
-                  //     );
-                  //   },
-                  //   style: ElevatedButton.styleFrom(
-                  //     backgroundColor: ColorsManager.yellow,
-                  //     foregroundColor: Colors.black,
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(8.r),
-                  //     ),
-                  //   ),
-                  //   child: Text(
-                  //     "Update Data",
-                  //     style: TextStyle(
-                  //       fontSize: 16.sp,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  // ),
-                  //),
                 ],
               ),
             ),

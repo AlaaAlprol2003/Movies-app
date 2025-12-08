@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/resources/routes_manager.dart';
 import 'package:movies_app/features/auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart';
-import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/models/user.dart';
 import '../../../../../../../../core/models/avatar.dart';
 import '../cubit/get_history_cubit.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/watchlist_cubit.dart';
-import 'edit_profile_screen.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/movie_item.dart';
 
@@ -26,12 +22,16 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  late AuthSharedPrefsLocalDataSource authSharedPrefsLocalDataSource;
 
   @override
   void initState() {
     super.initState();
+    authSharedPrefsLocalDataSource = AuthSharedPrefsLocalDataSource();
     tabController = TabController(length: 2, vsync: this);
     context.read<WatchListCubit>().getWatchList();
+    context.read<GetHistoryCubit>().getHistory();
+
   }
 
   @override
@@ -165,7 +165,7 @@ class _ProfileTabState extends State<ProfileTab>
                               flex: 2,
                               child: ElevatedButton(
                                 onPressed: ()  {
-                                  
+                                  _showLogoutDialog(context,authSharedPrefsLocalDataSource);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: ColorsManager.red,
@@ -359,7 +359,7 @@ class _ProfileTabState extends State<ProfileTab>
     );
   }
 
-  void _showLogoutDialog(BuildContext context) {
+  void _showLogoutDialog(BuildContext context,AuthSharedPrefsLocalDataSource authSharedPrefsLocalDataSource) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -384,6 +384,7 @@ class _ProfileTabState extends State<ProfileTab>
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+
               },
               child: Text(
                 'Cancel',
@@ -392,12 +393,8 @@ class _ProfileTabState extends State<ProfileTab>
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                // Navigate to login screen
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
+                authSharedPrefsLocalDataSource.deleteToken();
+                Navigator.pushNamed(context, RoutesManager.login);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorsManager.red,
