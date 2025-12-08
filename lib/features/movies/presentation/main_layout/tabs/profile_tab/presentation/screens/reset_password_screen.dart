@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/resources/ui_utils.dart';
-import 'package:movies_app/core/validators/app_validators.dart';
 import 'package:movies_app/core/widgets/custom_app_bar.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/custom_text_form_field.dart';

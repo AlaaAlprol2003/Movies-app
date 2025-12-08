@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/watch_list_data_source.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/remote/watch_list_data_source.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/models/Watch_list_response.dart';
 
-import '../../../../../../../../core/errors/errors/app_exceptions.dart';
-import '../../../../../../../../core/resources/const_manager.dart';
-import '../models/Is_added_to_watch_list.dart';
-import '../models/watch_list_request.dart';
+import '../../../../../../../../../core/errors/errors/app_exceptions.dart';
+import '../../../../../../../../../core/resources/const_manager.dart';
+import '../../models/Is_added_to_watch_list.dart';
+import '../../models/watch_list_request.dart';
 @LazySingleton(as: WatchListDataSource)
 class WatchListApiDataSource implements WatchListDataSource{
   Dio dio = Dio(BaseOptions(baseUrl: ProfileApiConstant.baseUrl));

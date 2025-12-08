@@ -5,7 +5,7 @@ import 'package:movies_app/features/movies/domain/entities/movie_summary_entity.
 import '../../../../../../../../core/errors/errors/app_exceptions.dart';
 import '../../../../../../../auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart';
 import '../../domain/repo/watch_list_repo.dart';
-import '../data_source/watch_list_data_source.dart';
+import '../data_source/remote/watch_list_data_source.dart';
 import '../models/watch_list_request.dart';
 
 @LazySingleton(as:WatchListRepo )

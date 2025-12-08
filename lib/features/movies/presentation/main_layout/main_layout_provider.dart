@@ -13,9 +13,11 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/cubit/search_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/search_tab/search_tab.dart';
 
+import '../../../../core/resources/const_manager.dart';
+
 class MainLayoutProvider extends ChangeNotifier {
   late HomeTabCarouselCubit homeTabCarouselCubit = serviceLocator.get<HomeTabCarouselCubit>()..fetchCarouselMovies(limit: 5);
-  late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex], genre2: genres[genreIndex+1], genre3: genres[genreIndex+2],);
+  late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1:MoviesGenres.genres[genreIndex], genre2: MoviesGenres.genres[genreIndex+1], genre3: MoviesGenres.genres[genreIndex+2],);
   late ProfileCubit profileCubit = serviceLocator.get<ProfileCubit>()..getUser();
   late WatchListCubit watchListCubit = serviceLocator.get<WatchListCubit>();
   late GetHistoryCubit getHistoryCubit = serviceLocator.get<GetHistoryCubit>()..getHistory();
@@ -49,26 +51,7 @@ class MainLayoutProvider extends ChangeNotifier {
   int browseGenreIndex = 0;
   int selectedCarouselTab = 0;
   String searchKey = '';
-  List<String> genres = [
-    'Crime',
-    'Romance',
-    'Animation',
-    'Adventure',
-    'Comedy',
-    'Sport',
-    'Documentary',
-    'Action',
-    'Drama',
-    'Family',
-    'Fantasy',
-    'Horror',
-    'Musical',
-    'Mystery',
-    'Sci-Fi',
-    'Thriller',
-    'Western',
-    'Music',
-  ];
+
 
 
   void changeGenre(int index) {

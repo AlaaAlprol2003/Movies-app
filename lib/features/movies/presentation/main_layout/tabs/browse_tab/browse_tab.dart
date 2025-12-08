@@ -7,6 +7,7 @@ import 'package:movies_app/features/movies/presentation/main_layout/main_layout_
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/cubit/browse_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_tab/widgets/tab_bar_item.dart';
 import 'package:provider/provider.dart';
+import '../../../../../../core/resources/const_manager.dart';
 import '../../../../domain/entities/movie_summary_entity.dart';
 
 class BrowseTab extends StatelessWidget {
@@ -22,11 +23,11 @@ class BrowseTab extends StatelessWidget {
                 children: [
                   DefaultTabController(
                     initialIndex: provider.browseGenreIndex,
-                    length: provider.genres.length,
+                    length: MoviesGenres.genres.length,
                     child: TabBar(
                       onTap: (index){
                         provider.changeBrowseTabBar(index);
-                        provider.browseCubit.getMovies(limit: 30, genres: provider.genres[index]);
+                        provider.browseCubit.getMovies(limit: 30, genres: MoviesGenres.genres[index]);
                       },
                       isScrollable: true,
                       dividerColor: Colors.transparent,
@@ -34,9 +35,9 @@ class BrowseTab extends StatelessWidget {
                       tabAlignment: TabAlignment.start,
                       labelPadding: EdgeInsets.symmetric(horizontal: 8),
                       tabs: List.generate(
-                        provider.genres.length,
+                        MoviesGenres.genres.length,
                             (index) => TabBarItem(
-                          categoryName: provider.genres[index]
+                          categoryName: MoviesGenres.genres[index]
                               .toString(),
                           isSelected: index == provider.browseGenreIndex,
                         ),
