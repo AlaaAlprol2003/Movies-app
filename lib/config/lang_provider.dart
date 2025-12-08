@@ -6,10 +6,10 @@ class LangProvider extends ChangeNotifier {
 
   void changeLang(int selectedLangIndex) {
     if (selectedLangIndex == 0) {
-      currentLang = "en";
+      currentLang = "ar";
       LangSharedPrefs.saveLang(currentLang);
     } else {
-      currentLang = "ar";
+      currentLang = "en";
       LangSharedPrefs.saveLang(currentLang);
     }
     notifyListeners();

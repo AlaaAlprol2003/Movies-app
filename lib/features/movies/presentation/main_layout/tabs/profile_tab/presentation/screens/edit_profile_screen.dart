@@ -220,7 +220,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onPress: () {
                         CustomAlertDialog.show(context,(){onDelete(
                           context.read<ProfileCubit>(),context,
-                        );} ,'Are you sure you want to delete your account?');
+                        );} ,'Are you sure you want to delete your account?','delete');
 
                       },
                     ),

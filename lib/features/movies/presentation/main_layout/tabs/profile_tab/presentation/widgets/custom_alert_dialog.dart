@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../../core/resources/colors_manager.dart';
 
 class CustomAlertDialog {
-  static Future<void> show(BuildContext context, VoidCallback onAgree,String message) async {
+  static Future<void> show(BuildContext context, VoidCallback onAgree,String message,String text) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -13,7 +13,7 @@ class CustomAlertDialog {
             borderRadius: BorderRadius.circular(16.r),
           ),
           title: Text(
-            'Logout',
+           text ,
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.sp,
@@ -44,7 +44,7 @@ class CustomAlertDialog {
                 ),
               ),
               child: Text(
-                'Logout',
+                  text,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
             ),

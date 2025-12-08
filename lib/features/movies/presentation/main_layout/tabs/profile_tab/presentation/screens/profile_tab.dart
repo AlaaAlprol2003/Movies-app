@@ -203,7 +203,7 @@ class _ProfileTabState extends State<ProfileTab>
                               flex: 2,
                               child: ElevatedButton(
                                 onPressed: ()  {
-                                  CustomAlertDialog.show(context,onLogout,'Are you sure you want to logout?');
+                                  CustomAlertDialog.show(context,onLogout,'Are you sure you want to logout?',"logout");
 
                                 },
                                 style: ElevatedButton.styleFrom(
