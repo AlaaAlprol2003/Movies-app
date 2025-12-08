@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 5), () {
-      if (!mounted) return; // <-- مهم جداً
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(

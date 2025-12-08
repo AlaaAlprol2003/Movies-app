@@ -18,6 +18,7 @@ import 'package:movies_app/features/auth/presentation/widgets/custom_animated_to
 import 'package:provider/provider.dart';
 
 import '../../../../core/models/avatar.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../cubit/auth_cubit_states.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -25,9 +26,10 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: ColorsManager.black,
-      appBar: CustomAppBar(titleText: "Register"),
+      appBar: CustomAppBar(titleText: appLocalizations.register),
       body: Consumer<AuthProvider>(
         builder: (context, provider, child) {
           return SingleChildScrollView(
@@ -55,21 +57,21 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 24.h),
                     Text(
-                      "Avatar",
+                      appLocalizations.avatar,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     SizedBox(height: 24.h),
                     CustomTextFormField(
                       validator: AppValidators.nameValidator,
                       controller: provider.nameController,
-                      hintText: "Name",
+                      hintText: appLocalizations.name,
                       preIcon: ImageIcon(AssetImage(IconAssets.name)),
                     ),
                     SizedBox(height: 24.h),
                     CustomTextFormField(
                       validator: AppValidators.emailValidator,
                       controller: provider.emailController,
-                      hintText: "Email",
+                      hintText: appLocalizations.email,
                       keyboardType: TextInputType.emailAddress,
                       preIcon: ImageIcon(AssetImage(IconAssets.email)),
                     ),
@@ -78,7 +80,7 @@ class RegisterScreen extends StatelessWidget {
                       validator: AppValidators.passwordValidator,
                       controller: provider.passwordController,
                       isObscure: provider.visiblePassword,
-                      hintText: "Password",
+                      hintText: appLocalizations.password,
                       keyboardType: TextInputType.visiblePassword,
                       preIcon: ImageIcon(AssetImage(IconAssets.password)),
                       sufIcon: IconButton(
@@ -95,7 +97,7 @@ class RegisterScreen extends StatelessWidget {
                       validator: provider.confirmPasswordValidator,
                       controller: provider.confirmPasswordController,
                       isObscure: provider.visibleConfirmPassword,
-                      hintText: "Confirm Password",
+                      hintText: appLocalizations.confirm_password,
                       keyboardType: TextInputType.visiblePassword,
                       preIcon: ImageIcon(AssetImage(IconAssets.password)),
                       sufIcon: IconButton(
@@ -112,7 +114,7 @@ class RegisterScreen extends StatelessWidget {
                     CustomTextFormField(
                       validator: AppValidators.phoneValidator,
                       controller: provider.phoneController,
-                      hintText: "Phone Number",
+                      hintText: appLocalizations.phone_number,
                       keyboardType: TextInputType.phone,
                       preIcon: ImageIcon(AssetImage(IconAssets.phone)),
                     ),
@@ -134,7 +136,7 @@ class RegisterScreen extends StatelessWidget {
                           UiUtils.hideLoadingDialog(context);
                           UiUtils.showToastNotificationBar(
                             context,
-                            "Successfull Registeration ",
+                            appLocalizations.successfull_registeration,
                             ColorsManager.white,
                             ColorsManager.green,
                             Icons.check_circle,
@@ -146,7 +148,7 @@ class RegisterScreen extends StatelessWidget {
                         }
                       },
                       child: CustomElevatedButton(
-                        text: "Create Account",
+                        text: appLocalizations.create_account,
                         onPress: () {
                           if (provider.registerFormKey.currentState?.validate() == false) return;
                           BlocProvider.of<AuthCubit>(context).register(
@@ -168,12 +170,12 @@ class RegisterScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already Have Account ?",
+                          appLocalizations.already_have_account,
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
 
                         CustomTextButton(
-                          text: "Login",
+                          text: appLocalizations.login,
                           onPress: () {
                             Navigator.pushReplacementNamed(
                               context,
