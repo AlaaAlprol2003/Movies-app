@@ -14,9 +14,11 @@ import '../../features/movies/domain/use_cases/movie_details_use_case.dart';
 import '../../features/movies/domain/use_cases/movie_suggestions_use_case.dart';
 import '../../features/movies/presentation/main_layout/main_layout.dart';
 import '../../features/movies/presentation/main_layout/main_layout_provider.dart';
+import '../../features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/add_history_use_case.dart';
 import '../../features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/add_watch_list_use_case.dart';
 import '../../features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/delete_movie_from__watch_list_use_case.dart';
 import '../../features/movies/presentation/main_layout/tabs/profile_tab/domain/use_cases/is_add_to_watch_list_use_case.dart';
+import '../../features/movies/presentation/movie_details/cubit/add_history_cubit.dart';
 import '../../features/movies/presentation/movie_details/cubit/movie_details_cubit.dart';
 import '../../features/movies/presentation/movie_details/movie_details.dart';
 import '../di/service_locator.dart';
@@ -81,6 +83,12 @@ class RoutesManager {
                   movieId: movieId.toString(),
                 )..checkIfAdded(),
               ),
+              BlocProvider<AddHistoryCubit>(
+                create: (_) => AddHistoryCubit(
+                  addHistoryUseCase: serviceLocator
+                      .get<AddHistoryUseCase>(),
+                ),
+              )
             ],
             child: MovieDetails(),
           ),

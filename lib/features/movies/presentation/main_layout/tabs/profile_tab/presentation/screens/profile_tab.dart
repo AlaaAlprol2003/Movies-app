@@ -9,6 +9,7 @@ import 'package:movies_app/features/auth/data/data_sources/local/auth_shared_pre
 import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/models/user.dart';
 import '../../../../../../../../core/models/avatar.dart';
+import '../cubit/get_history_cubit.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/watchlist_cubit.dart';
 import 'edit_profile_screen.dart';
@@ -210,28 +211,26 @@ class _ProfileTabState extends State<ProfileTab>
                   ),
                 ),
               ),
-              child: DefaultTabController(
-                length: 2,
-                child: TabBar(
-                  indicatorColor: ColorsManager.yellow,
-                  indicatorWeight: 3,
-                  labelColor: ColorsManager.yellow,
-                  unselectedLabelColor: ColorsManager.grey,
-                  labelStyle: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  tabs: [
-                    Tab(
-                      icon: Icon(Icons.list_alt, size: 24.sp),
-                      text: 'Watch List',
-                    ),
-                    Tab(
-                      icon: Icon(Icons.folder, size: 24.sp),
-                      text: 'History',
-                    ),
-                  ],
+              child: TabBar(
+                controller: tabController,
+                indicatorColor: ColorsManager.yellow,
+                indicatorWeight: 3,
+                labelColor: ColorsManager.yellow,
+                unselectedLabelColor: ColorsManager.grey,
+                labelStyle: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
                 ),
+                tabs: [
+                  Tab(
+                    icon: Icon(Icons.list_alt, size: 24.sp),
+                    text: 'Watch List',
+                  ),
+                  Tab(
+                    icon: Icon(Icons.folder, size: 24.sp),
+                    text: 'History',
+                  ),
+                ],
               ),
             ),
             //Tab Bar view
@@ -240,7 +239,6 @@ class _ProfileTabState extends State<ProfileTab>
                 controller: tabController,
 
                 children: [
-                  // WatchList Tab
                   BlocBuilder<WatchListCubit, WatchListState>(
                     builder: (context, state) {
                       if (state is WatchListLoading) {
@@ -283,27 +281,27 @@ class _ProfileTabState extends State<ProfileTab>
                       }
                     },
                   ),
-                  BlocBuilder<WatchListCubit, WatchListState>(
+                  BlocBuilder<GetHistoryCubit, GetHistoryState>(
                     builder: (context, state) {
-                      if (state is WatchListLoading) {
+                      if (state is GetHistoryLoading) {
                         return const Center(
                           child: CircularProgressIndicator(
                             color: ColorsManager.yellow,
                           ),
                         );
-                      } else if (state is WatchListError) {
+                      } else if (state is GetHistoryError) {
                         return Center(
                           child: Text(
                             state.message,
                             style: TextStyle(color: Colors.white),
                           ),
                         );
-                      } else if (state is WatchListSuccess) {
+                      } else if (state is GetHistorySuccess) {
                         final movies = state.movies;
                         if (movies.isEmpty) {
                           return _buildEmptyState(
                             ImagesAssets.empity,
-                            'Your watchlist is empty',
+                            'Your History is empty',
                           );
                         }
                         return GridView.builder(
@@ -325,7 +323,6 @@ class _ProfileTabState extends State<ProfileTab>
                       }
                     },
                   ),
-                  // History Tab
                 ],
               ),
             ),

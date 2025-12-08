@@ -1,3 +1,5 @@
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/models/movie_hive.dart';
+
 import '../../data/models/movie_details/Cast.dart';
 import '../../presentation/main_layout/tabs/profile_tab/data/models/watch_list_request.dart';
 
@@ -42,4 +44,11 @@ class MovieDetailsEntity{
       year: year.toString(),
     );
   }
+
+  MovieHive toMovieHive(){
+    return MovieHive(
+      id: id,
+      photo: mediumCoverImage,
+      rating: rating,
+    );}
 }

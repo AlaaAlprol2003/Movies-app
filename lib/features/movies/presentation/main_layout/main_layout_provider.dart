@@ -6,7 +6,7 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/browse_
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/cubits/home_tab_carousel_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/cubits/home_tab_category_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/home_tab.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/history_cubit.dart';
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/get_history_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/watchlist_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/screens/profile_tab.dart';
@@ -18,7 +18,7 @@ class MainLayoutProvider extends ChangeNotifier {
   late HomeTabCategoryCubit homeTabCategoryCubit = serviceLocator.get<HomeTabCategoryCubit>()..fetchCategoryMovies(genre1: genres[genreIndex], genre2: genres[genreIndex+1], genre3: genres[genreIndex+2],);
   late ProfileCubit profileCubit = serviceLocator.get<ProfileCubit>()..getUser();
   late WatchListCubit watchListCubit = serviceLocator.get<WatchListCubit>();
-  late HistoryCubit historyCubit = serviceLocator.get<HistoryCubit>();
+  late GetHistoryCubit getHistoryCubit = serviceLocator.get<GetHistoryCubit>()..getHistory();
   late SearchCubit searchCubit = serviceLocator.get<SearchCubit>();
   late BrowseCubit browseCubit = serviceLocator.get<BrowseCubit>()..getMovies(limit: 30,);
 
@@ -39,6 +39,7 @@ class MainLayoutProvider extends ChangeNotifier {
       providers: [
         BlocProvider.value(value: profileCubit),
         BlocProvider.value(value: watchListCubit),
+        BlocProvider.value(value: getHistoryCubit),
       ],
       child: ProfileTab(),
     )

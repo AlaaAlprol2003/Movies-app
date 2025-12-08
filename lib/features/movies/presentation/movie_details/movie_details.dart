@@ -13,6 +13,7 @@ import 'package:movies_app/features/movies/presentation/movie_details/widgets/si
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/resources/ui_utils.dart';
+import 'cubit/add_history_cubit.dart';
 import 'cubit/cubit_states.dart';
 import 'cubit/movie_details_cubit.dart';
 import 'cubit/movie_suggestions_cubit.dart';
@@ -108,11 +109,24 @@ class MovieDetails extends StatelessWidget {
                           movieTitle: movie.title,
                           movieYear: movie.year.toString(),
                         ),
-                        InkWell(
-                          onTap: () {
-                            openUrl(movie.url,context);
+                        BlocListener<AddHistoryCubit, AddHistoryState>(
+                          listener: (context, state) {
+                            if (state is AddHistoryLoading){
+                            }
+                            if (state is AddHistoryError) {
+                              UiUtils.showToastNotificationBar(context, state.message, ColorsManager.white, ColorsManager.red, Icons.error);
+                            }
+                            if (state is AddHistorySuccess) {
+                            }
                           },
-                          child: SvgPicture.asset(IconAssets.play),
+                          child: InkWell(
+                            onTap: () {
+                              openUrl(movie.url,context);
+                              context.read<AddHistoryCubit>().addHistory(movie: movie.toMovieHive());
+
+                            },
+                            child: SvgPicture.asset(IconAssets.play),
+                          ),
                         ),
                       ],
                     ),
@@ -122,13 +136,25 @@ class MovieDetails extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomElevatedButton(
-                          text: "Watch",
-                          onPress: () {
-                            openUrl(movie.url,context);
+                        BlocListener<AddHistoryCubit, AddHistoryState>(
+                          listener: (context, state) {
+                            if (state is AddHistoryLoading){
+                            }
+                            if (state is AddHistoryError) {
+                              UiUtils.showToastNotificationBar(context, state.message, ColorsManager.white, ColorsManager.red, Icons.error);
+                            }
+                            if (state is AddHistorySuccess) {
+                            }
                           },
-                          color: ColorsManager.red,
-                          textColor: ColorsManager.white,
+                          child: CustomElevatedButton(
+                            text: "Watch",
+                            onPress: () {
+                              context.read<AddHistoryCubit>().addHistory(movie: movie.toMovieHive());
+                              openUrl(movie.url,context);
+                            },
+                            color: ColorsManager.red,
+                            textColor: ColorsManager.white,
+                          ),
                         ),
                         SizedBox(height: 20.h),
                         Row(
