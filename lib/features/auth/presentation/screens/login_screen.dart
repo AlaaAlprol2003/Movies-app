@@ -14,7 +14,7 @@ import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/provider/auth_provider.dart';
 import 'package:movies_app/features/auth/presentation/widgets/custom_animated_toogle.dart';
 import 'package:provider/provider.dart';
-
+import '../../../../l10n/app_localizations.dart';
 import '../cubit/auth_cubit_states.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -22,6 +22,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: ColorsManager.black,
       body: Padding(
@@ -38,7 +39,7 @@ class LoginScreen extends StatelessWidget {
                     CustomTextFormField(
                       controller: provider.loginEmailController,
                       validator: AppValidators.emailValidator,
-                      hintText: "Email",
+                      hintText: appLocalizations.email,
                       keyboardType: TextInputType.emailAddress,
                       preIcon: ImageIcon(AssetImage(IconAssets.email)),
                     ),
@@ -47,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                       controller: provider.loginPasswordController,
                       validator: AppValidators.passwordValidator,
                       isObscure: provider.visiblePassword,
-                      hintText: "Password",
+                      hintText: appLocalizations.password,
                       keyboardType: TextInputType.visiblePassword,
                       preIcon:ImageIcon(AssetImage(IconAssets.password)),
                       sufIcon: IconButton(
@@ -63,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: CustomTextButton(
-                        text: "Forget Password?",
+                        text: appLocalizations.forget_password,
                         onPress: () {
                           Navigator.pushNamed(
                             context,
@@ -82,11 +83,11 @@ class LoginScreen extends StatelessWidget {
                           UiUtils.showToastNotificationBar(context, state.message, ColorsManager.white, ColorsManager.red, Icons.error);
                         }else if(state is LoginSuccess){
                           UiUtils.hideLoadingDialog(context);
-                          UiUtils.showToastNotificationBar(context, "Logged-in Successfully", ColorsManager.white, ColorsManager.green, Icons.check_circle);
+                          UiUtils.showToastNotificationBar(context, appLocalizations.logged_in_successfully, ColorsManager.white, ColorsManager.green, Icons.check_circle);
                           Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
                         }
                       },
-                      child: CustomElevatedButton(text: "Login", onPress: () {
+                      child: CustomElevatedButton(text: appLocalizations.login, onPress: () {
                          if(provider.loginFormKey.currentState?.validate() == false) return ;
                          BlocProvider.of<AuthCubit>(context).login(LoginRequest(
                           email: provider.loginEmailController.text,
@@ -98,11 +99,11 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't Have Account? ",
+                          appLocalizations.dont_have_account,
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         CustomTextButton(
-                          text: "Create One",
+                          text: appLocalizations.create_one,
                           onPress: () {
                             Navigator.pushNamed(context, RoutesManager.register);
                           },
@@ -121,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Or",
+                          appLocalizations.or,
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(color: ColorsManager.yellow),
                         ),
@@ -137,7 +138,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 28.h),
                     CustomElevatedButton(
-                      text: "Login With Google",
+                      text: appLocalizations.login_with_google,
                       onPress: () {},
                       icon: ImageIcon(AssetImage(IconAssets.google)),
                     ),

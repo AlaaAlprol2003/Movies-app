@@ -6,11 +6,14 @@ import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/features/auth/presentation/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../config/lang_provider.dart';
+
 class CustomAnimatedToggle extends StatelessWidget {
   const CustomAnimatedToggle({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var langProvider = Provider.of<LangProvider>(context);
     return Consumer<AuthProvider>(
       builder: (context, provider, child) {
         return AnimatedToggleSwitch<int>.rolling(
@@ -18,6 +21,7 @@ class CustomAnimatedToggle extends StatelessWidget {
           values: [0, 1],
           onChanged: (i) {
             provider.switcher(i);
+            langProvider.changeLang(i);
           },
           loading: false,
           style: ToggleStyle(
