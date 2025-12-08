@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/models/edit_profile_response.dart';
 
-import '../models/Profile_response.dart';
+import '../../models/Profile_response.dart';
 
 @lazySingleton
 abstract class ProfileDataSource {

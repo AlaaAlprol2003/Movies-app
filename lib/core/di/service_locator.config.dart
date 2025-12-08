@@ -76,14 +76,12 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile
     as _i733;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/local_data_source/history_local_data_source.dart'
     as _i409;
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/profile_api_data_source.dart'
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/remote/profile_api_data_source.dart'
     as _i193;
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/profile_data_source.dart'
-    as _i70;
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/watch_list_api_data_source.dart'
+
+import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/remote/watch_list_api_data_source.dart'
     as _i1040;
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/watch_list_data_source.dart'
-    as _i817;
+
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/repo_mpl/history_repo_impl.dart'
     as _i1037;
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/data/repo_mpl/profile_repo_impl.dart'
@@ -130,6 +128,9 @@ import 'package:movies_app/features/movies/presentation/movie_details/cubit/movi
     as _i590;
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/movie_suggestions_cubit.dart'
     as _i582;
+
+import '../../features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/remote/profile_data_source.dart' as _i70;
+import '../../features/movies/presentation/main_layout/tabs/profile_tab/data/data_source/remote/watch_list_data_source.dart' as _i817;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt

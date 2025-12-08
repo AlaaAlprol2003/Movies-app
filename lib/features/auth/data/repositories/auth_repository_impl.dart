@@ -46,8 +46,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> resetPassword(ResetPasswordRequest request)async {
    try {
      AuthSharedPrefsLocalDataSource authLocalDataSource = AuthSharedPrefsLocalDataSource();
-     String? token = await authLocalDataSource.getToken();
-   await  authRemoteDataSource.resetPassword(request, token!);
+     String token = await authLocalDataSource.getToken();
+   await  authRemoteDataSource.resetPassword(request, token);
      return Right(null);
    }catch (exception) {
      return Left(Failure(message: "Failed to reset password"));

@@ -22,3 +22,26 @@ abstract class ProfileApiConstant {
   static const String isAddedToWatchListEndPoint ='favorites/is-favorite/';
   static const String getWatchListMoviesEndPoint ='favorites/all';
 }
+
+abstract class MoviesGenres{
+static List<String> genres = [
+    'Crime',
+    'Romance',
+    'Animation',
+    'Adventure',
+    'Comedy',
+    'Sport',
+    'Documentary',
+    'Action',
+    'Drama',
+    'Family',
+    'Fantasy',
+    'Horror',
+    'Musical',
+    'Mystery',
+    'Sci-Fi',
+    'Thriller',
+    'Western',
+    'Music',
+  ];
+}

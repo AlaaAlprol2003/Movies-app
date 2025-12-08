@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/domain/entities/user_profile_entity.dart';
-import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/cubit/profile_cubit.dart';
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/profile_tab/presentation/screens/edit_profile_screen.dart';
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/is_watch_list_cubit.dart';
 import 'package:movies_app/features/movies/presentation/movie_details/cubit/movie_suggestions_cubit.dart';

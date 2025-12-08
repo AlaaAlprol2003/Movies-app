@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../../../core/resources/colors_manager.dart';
 import '../../../../../../../../core/widgets/movie_item.dart';
+import '../../../../../../../core/resources/const_manager.dart';
 import '../../../../../domain/entities/movie_summary_entity.dart';
 import '../../../main_layout_provider.dart';
 
@@ -39,7 +40,7 @@ class CategoryListView extends StatelessWidget {
               InkWell(
                 onTap: () {
                   provider.changeBrowseTabBar(genreIndex);
-                  provider.browseCubit.getMovies(limit: 30, genres: provider.genres[genreIndex]);
+                  provider.browseCubit.getMovies(limit: 30, genres: MoviesGenres.genres[genreIndex]);
                   provider.changeTab(2);
                 },
                 child: Row(

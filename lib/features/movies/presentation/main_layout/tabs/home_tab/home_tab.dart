@@ -6,6 +6,7 @@ import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_ta
 import 'package:movies_app/features/movies/presentation/main_layout/tabs/home_tab/widgets/category_list_view.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../core/resources/colors_manager.dart';
+import '../../../../../../core/resources/const_manager.dart';
 import '../../../../../../core/widgets/movie_item.dart';
 import '../../main_layout_provider.dart';
 import 'cubits/cubit_states.dart';
@@ -27,7 +28,6 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     super.initState();
-    // هضيف الليسنر هنا بدل didChangeDependencies
   }
 
   @override
@@ -36,7 +36,6 @@ class _HomeTabState extends State<HomeTab> {
 
     _provider ??= Provider.of<MainLayoutProvider>(context, listen: false);
 
-    // أضمن إني أضيف الليسنر مرة واحدة فقط
     _provider!.removeListener(_onGenreChange);
     _provider!.addListener(_onGenreChange);
 
@@ -44,9 +43,9 @@ class _HomeTabState extends State<HomeTab> {
 
     if (!_fetched) {
       cubit.fetchCategoryMovies(
-        genre1: _provider!.genres[_provider!.genreIndex],
-        genre2: _provider!.genres[_provider!.genreIndex + 1],
-        genre3: _provider!.genres[_provider!.genreIndex + 2],
+        genre1: MoviesGenres.genres[_provider!.genreIndex],
+        genre2: MoviesGenres.genres[_provider!.genreIndex + 1],
+        genre3: MoviesGenres.genres[_provider!.genreIndex + 2],
       );
       _fetched = true;
       _lastGenreIndex = _provider!.genreIndex;
@@ -64,9 +63,9 @@ class _HomeTabState extends State<HomeTab> {
     final cubit = context.read<HomeTabCategoryCubit>();
 
     cubit.fetchCategoryMovies(
-      genre1: _provider!.genres[_provider!.genreIndex],
-      genre2: _provider!.genres[_provider!.genreIndex + 1],
-      genre3: _provider!.genres[_provider!.genreIndex + 2],
+      genre1: MoviesGenres.genres[_provider!.genreIndex],
+      genre2: MoviesGenres.genres[_provider!.genreIndex + 1],
+      genre3: MoviesGenres.genres[_provider!.genreIndex + 2],
     );
   }
 
@@ -178,15 +177,15 @@ class _HomeTabState extends State<HomeTab> {
                   children: [
                     CategoryListView(
                         categoryName:
-                        provider.genres[provider.genreIndex], // genre1
+                        MoviesGenres.genres[provider.genreIndex], // genre1
                         movies: category1,genreIndex: provider.genreIndex,),
                     CategoryListView(
                         categoryName:
-                        provider.genres[provider.genreIndex + 1], // genre2
+                        MoviesGenres.genres[provider.genreIndex + 1], // genre2
                         movies: category2,genreIndex: provider.genreIndex+1,),
                     CategoryListView(
                         categoryName:
-                        provider.genres[provider.genreIndex + 2], // genre3
+                        MoviesGenres.genres[provider.genreIndex + 2], // genre3
                         movies: category3,genreIndex: provider.genreIndex+2,),
                   ],
                 );
