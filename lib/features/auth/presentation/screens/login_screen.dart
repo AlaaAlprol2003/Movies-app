@@ -17,9 +17,30 @@ import 'package:provider/provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../cubit/auth_cubit_states.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  late AuthProvider provider;
+
+  @override
+  void didChangeDependencies() {
+   provider= Provider.of<AuthProvider>(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    provider.loginEmailController.clear();
+    provider.loginPasswordController.clear();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
@@ -143,7 +164,6 @@ class LoginScreen extends StatelessWidget {
                       icon: ImageIcon(AssetImage(IconAssets.google)),
                     ),
                     SizedBox(height: 24.h),
-                
                     SizedBox(
                       width: 120.w,
                       child: CustomAnimatedToggle()),

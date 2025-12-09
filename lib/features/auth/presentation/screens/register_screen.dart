@@ -21,9 +21,33 @@ import '../../../../core/models/avatar.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../cubit/auth_cubit_states.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+
+
+  late AuthProvider provider;
+
+  @override
+  void didChangeDependencies() {
+    provider= Provider.of<AuthProvider>(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    provider.confirmPasswordController.clear();
+    provider.passwordController.clear();
+    provider.emailController.clear();
+    provider.phoneController.clear();
+    provider.nameController.clear();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;

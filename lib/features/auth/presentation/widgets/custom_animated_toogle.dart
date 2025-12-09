@@ -18,7 +18,7 @@ class CustomAnimatedToggle extends StatelessWidget {
       builder: (context, provider, child) {
         return AnimatedToggleSwitch<int>.rolling(
           current: provider.currentValue,
-          values: [1, 0],
+          values: [0, 1],
           onChanged: (i) {
             provider.switcher(i);
             langProvider.changeLang(i);
@@ -34,14 +34,14 @@ class CustomAnimatedToggle extends StatelessWidget {
                 border: Border.all(color: ColorsManager.yellow, width: 2.w),
                 borderRadius: BorderRadius.circular(20.r),
               ),
-              child: Image.asset(IconAssets.usa),
+              child: Image.asset(IconAssets.egypt),
             ),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: ColorsManager.yellow, width: 2.w),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Image.asset(IconAssets.egypt),
+              child: Image.asset(IconAssets.usa),
             ),
           ],
           indicatorIconScale: 1.5,

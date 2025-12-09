@@ -256,5 +256,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _nameController.text,
       _phoneController.text,
     );
+    context.read<ProfileCubit>().getUser();
   }
 }
